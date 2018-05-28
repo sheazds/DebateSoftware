@@ -26,6 +26,7 @@ SET time_zone = "+00:00";
 
 --
 -- Table structure for table `ballot`
+-- Connects the ballots to the rooms in which the debate took place.
 --
 
 CREATE TABLE `ballot` (
@@ -37,6 +38,7 @@ CREATE TABLE `ballot` (
 
 --
 -- Table structure for table `ballot_round`
+-- Associates each ballot with a round.
 --
 
 CREATE TABLE `ballot_round` (
@@ -48,6 +50,7 @@ CREATE TABLE `ballot_round` (
 
 --
 -- Table structure for table `ballot_speaker_scores`
+-- Associates the individual score for each speaker with the ballot.
 --
 
 CREATE TABLE `ballot_speaker_scores` (
@@ -60,6 +63,7 @@ CREATE TABLE `ballot_speaker_scores` (
 
 --
 -- Table structure for table `ballot_team`
+-- Associates each ballot with a team
 --
 
 CREATE TABLE `ballot_team` (
@@ -71,6 +75,7 @@ CREATE TABLE `ballot_team` (
 
 --
 -- Table structure for table `judge`
+-- The information that a judge has.
 --
 
 CREATE TABLE `judge` (
@@ -86,6 +91,7 @@ CREATE TABLE `judge` (
 
 --
 -- Table structure for table `judge_pairing`
+-- Connects each judge with the pairing that they will oversee
 --
 
 CREATE TABLE `judge_pairing` (
@@ -97,6 +103,7 @@ CREATE TABLE `judge_pairing` (
 
 --
 -- Table structure for table `pairing`
+-- The group of two teams that will be debating and where
 --
 
 CREATE TABLE `pairing` (
@@ -112,6 +119,7 @@ CREATE TABLE `pairing` (
 
 --
 -- Table structure for table `pairing_preference`
+-- The information about how teams will be paired together.
 --
 
 CREATE TABLE `pairing_preference` (
@@ -121,47 +129,17 @@ CREATE TABLE `pairing_preference` (
   `reseed_pullout` int(11) DEFAULT NULL,
   `matching_type` varchar(20) DEFAULT NULL,
   `max_allowed_govt_assistants` varchar(20) DEFAULT NULL,
-  `random_room_assignment` char(1) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pairing_preference_bracket_type`
---
-
-CREATE TABLE `pairing_preference_bracket_type` (
+  `random_room_assignment` char(1) DEFAULT NULL,
   `bracket_type` varchar(20) NOT NULL,
-  `pp_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `pairing_preference_fix_team_conflicts`
---
-
-CREATE TABLE `pairing_preference_fix_team_conflicts` (
   `fix_team_conflicts` varchar(20) NOT NULL,
-  `pp_id` int(11) NOT NULL
+  `pullout_type` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
---
--- Table structure for table `pairing_preference_pullout_type`
---
-
-CREATE TABLE `pairing_preference_pullout_type` (
-  `pullout_type` varchar(20) NOT NULL,
-  `pp_id` int(11) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
--- --------------------------------------------------------
-
---
+--TODO might not be necessary
 -- Table structure for table `pairing_team`
---
+-- Associates each team with a pairing
 
 CREATE TABLE `pairing_team` (
   `pairing_id` int(11) NOT NULL,
@@ -172,6 +150,7 @@ CREATE TABLE `pairing_team` (
 
 --
 -- Table structure for table `region`
+-- The region information
 --
 
 CREATE TABLE `region` (
@@ -183,6 +162,7 @@ CREATE TABLE `region` (
 
 --
 -- Table structure for table `room`
+-- The room information
 --
 
 CREATE TABLE `room` (
@@ -195,6 +175,7 @@ CREATE TABLE `room` (
 
 --
 -- Table structure for table `round`
+-- The round information
 --
 
 CREATE TABLE `round` (
@@ -207,6 +188,7 @@ CREATE TABLE `round` (
 
 --
 -- Table structure for table `school`
+-- School information
 --
 
 CREATE TABLE `school` (
@@ -219,6 +201,7 @@ CREATE TABLE `school` (
 
 --
 -- Table structure for table `scratches`
+-- Scratches are a relationship between judges and speakers indicating a potential conflict of interests
 --
 
 CREATE TABLE `scratches` (
@@ -230,6 +213,7 @@ CREATE TABLE `scratches` (
 
 --
 -- Table structure for table `speaker`
+-- Speaker information
 --
 
 CREATE TABLE `speaker` (
@@ -246,6 +230,7 @@ CREATE TABLE `speaker` (
 
 --
 -- Table structure for table `team`
+-- Team information
 --
 
 CREATE TABLE `team` (
@@ -256,6 +241,7 @@ CREATE TABLE `team` (
 
 --
 -- Indexes for dumped tables
+-- This section adds all the primary keys
 --
 
 --
@@ -314,27 +300,6 @@ ALTER TABLE `pairing`
 ALTER TABLE `pairing_preference`
   ADD PRIMARY KEY (`pp_id`),
   ADD UNIQUE KEY `pp_name` (`pp_name`);
-
---
--- Indexes for table `pairing_preference_bracket_type`
---
-ALTER TABLE `pairing_preference_bracket_type`
-  ADD PRIMARY KEY (`bracket_type`,`pp_id`),
-  ADD KEY `pp_id` (`pp_id`);
-
---
--- Indexes for table `pairing_preference_fix_team_conflicts`
---
-ALTER TABLE `pairing_preference_fix_team_conflicts`
-  ADD PRIMARY KEY (`fix_team_conflicts`,`pp_id`),
-  ADD KEY `pp_id` (`pp_id`);
-
---
--- Indexes for table `pairing_preference_pullout_type`
---
-ALTER TABLE `pairing_preference_pullout_type`
-  ADD PRIMARY KEY (`pullout_type`,`pp_id`),
-  ADD KEY `pp_id` (`pp_id`);
 
 --
 -- Indexes for table `pairing_team`
@@ -397,6 +362,7 @@ ALTER TABLE `team`
 
 --
 -- AUTO_INCREMENT for dumped tables
+-- Adds all the auto-increment to the needed primary keys
 --
 
 --
@@ -461,6 +427,7 @@ ALTER TABLE `team`
 
 --
 -- Constraints for dumped tables
+-- Adds all the foreign key constraints for the tables.
 --
 
 --
@@ -509,24 +476,6 @@ ALTER TABLE `judge_pairing`
 ALTER TABLE `pairing`
   ADD CONSTRAINT `pairing_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `room` (`room_id`),
   ADD CONSTRAINT `pairing_ibfk_2` FOREIGN KEY (`round_id`) REFERENCES `round` (`round_id`);
-
---
--- Constraints for table `pairing_preference_bracket_type`
---
-ALTER TABLE `pairing_preference_bracket_type`
-  ADD CONSTRAINT `pairing_preference_bracket_type_ibfk_1` FOREIGN KEY (`pp_id`) REFERENCES `pairing_preference` (`pp_id`);
-
---
--- Constraints for table `pairing_preference_fix_team_conflicts`
---
-ALTER TABLE `pairing_preference_fix_team_conflicts`
-  ADD CONSTRAINT `pairing_preference_fix_team_conflicts_ibfk_1` FOREIGN KEY (`pp_id`) REFERENCES `pairing_preference` (`pp_id`);
-
---
--- Constraints for table `pairing_preference_pullout_type`
---
-ALTER TABLE `pairing_preference_pullout_type`
-  ADD CONSTRAINT `pairing_preference_pullout_type_ibfk_1` FOREIGN KEY (`pp_id`) REFERENCES `pairing_preference` (`pp_id`);
 
 --
 -- Constraints for table `pairing_team`
