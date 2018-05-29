@@ -130,9 +130,7 @@ CREATE TABLE `pairing` (
   `pairing_id` int(11) NOT NULL,
   `priority` int(11) DEFAULT NULL,
   `round_id` int(11) NOT NULL,
-  `room_id` int(11) NOT NULL,
-  `team1_id` int(11) NOT NULL,
-  `team2_id` int(11) NOT NULL
+  `room_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -148,7 +146,7 @@ CREATE TABLE `pairing_preference` (
   `custom_bracket_size` int(11) DEFAULT NULL,
   `reseed_pullout` int(11) DEFAULT NULL,
   `matching_type` varchar(20) DEFAULT NULL,
-  `max_allowed_govt_assistants` varchar(20) DEFAULT NULL,
+  `max_allowed_govt_assistants` int(20) DEFAULT NULL,
   `random_room_assignment` char(1) DEFAULT NULL,
   `bracket_type` varchar(20) NOT NULL,
   `fix_team_conflicts` varchar(20) NOT NULL,
