@@ -31,7 +31,7 @@ $stmt->bind_param("is", $region_id, $region_name);
 
 $region_id = 0;
 
-// You would replace this with the user input
+// You would replace this with the user input. region_name is a string of max length 20
 $region_name = "Northern British Columbia";
 
 $stmt -> execute();
@@ -102,7 +102,6 @@ $stmt = $conn->prepare("INSERT INTO ballot_round (ballot_id, round_id) VALUES (?
 $stmt->bind_param("ii", $ballot_id, $round_id);
 
 // This needs to be a valid ballot_id otherwise it will cause and error
-
 $ballot_id = 124;
 
 // This needs to be a valid round_id otherwise it will cause an error
@@ -138,7 +137,6 @@ $stmt = $conn->prepare("INSERT INTO ballot_speaker_score (ballot_id, speaker_id,
 $stmt->bind_param("iii", $ballot_id, $speaker_id, $socre);
 
 // This needs to be a valid ballot_id.
-
 $ballot_id = 0;
 
 // This needs to be a valid speaker_id
@@ -177,7 +175,6 @@ $stmt = $conn->prepare("INSERT INTO ballot_team (ballot_id, team_id) VALUES (?, 
 $stmt->bind_param("iii", $ballot_id, $team_id);
 
 // This needs to be a valid ballot_id.
-
 $ballot_id = 145;
 
 // This needs to be a valid team_id.
@@ -216,13 +213,12 @@ $stmt = $conn->prepare("INSERT INTO judge (judge_id, judge_first_name, judge_las
 $stmt->bind_param("issii", $judge_id, $judge_first_name, $judge_last_name, $rank, $school_id);
 
 // Judge_id is a auto-incremented value so it is set to 0.
-
 $judge_id = 0;
 
-// This is a string
+// This is a string of max size 20
 $judge_first_name = "Joe";
 
-// Also a string
+// Also a string of max size 20
 $judge_last_name = "Smith";
 
 // Integer that is currently not bounded but that can be changed
@@ -343,7 +339,7 @@ $stmt->bind_param("isiisissss", $pp_id, $pp_name, $custom_bracket_size, $reseed_
 // pp_id is an auto-incrementing value so it is set to 0
 $pp_id = 0;
 
-// Name of the pairing_preference
+// Name of the pairing_preference. A string of max size 20
 $pp_name = "Something";
 
 // The size of the bracket, not currently bound
@@ -352,22 +348,22 @@ $custom_bracket_size = 12;
 // Should just be a boolean so it will need to be changed to reflect this.
 $reseed_pullout = 1;
 
-// Either Random, High-High, High-Low
+// Either Random, High-High, High-Low. A string of max size 20. This could be reduced once we are certain of the inputs
 $matching_type = "Something";
 
 // A int
 $max_allowed_govt_assistance = 45;
 
-//Just another check box so will need to change as well
+//Just another check box so will need to change as well. Same as matching_type
 $random_room_assignment = "More words";
 
-//Either no bracketing, win-loss, uniform size, or custom size
+//Either no bracketing, win-loss, uniform size, or custom size. Same as above
 $bracket_type = "Value";
 
 // This is a list of values so will need to change probably to work.... not sure how at the moment
 $fix_team_conflicts = "Another value";
 
-// Either top, middle, bottom
+// Either top, middle, bottom. Same as above
 $pullout_type = "Different value";
 
 $stmt -> execute();
