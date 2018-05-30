@@ -375,3 +375,271 @@ $stmt -> execute();
 $stmt->close();
 $conn->close();
 ?>
+
+<?php
+
+// Used to INSERT INTO the pairing_team table the needed information from the user
+
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "myDB";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// prepare and bind
+$stmt = $conn->prepare("INSERT INTO pairing_team (pairing_id, team_id) VALUES (?, ?)");
+$stmt->bind_param("ii", $pairing_id, $team_id);
+
+// Needs to be a valid parring_id
+$ballot_id = 342;
+
+// Needs to be a valid team_id
+$team_id = 123;
+
+$stmt -> execute();
+
+$stmt->close();
+$conn->close();
+?>
+
+
+
+<?php
+
+// Used to INSERT INTO the room table the needed information from the user
+
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "myDB";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// prepare and bind
+$stmt = $conn->prepare("INSERT INTO room (room_id, room_name, room_priority) VALUES (?, ?, ?)");
+$stmt->bind_param("isi", $room_id, $room_name, $room_priority);
+
+// room_id is an auto-incremented value so it is set to 0.
+$room_id = 0;
+
+// room_name is a string of max length 20
+$room_name = "Some Name";
+
+// Unbounded integer that can be bound to acceptable values.
+$room_priority = 5;
+
+$stmt -> execute();
+
+$stmt->close();
+$conn->close();
+?>
+
+
+
+<?php
+
+// Used to INSERT INTO the round table the needed information from the user
+
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "myDB";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// prepare and bind
+$stmt = $conn->prepare("INSERT INTO round (round_id, round_name, pp_id) VALUES (?, ?, ?)");
+$stmt->bind_param("isi", $round_id, $round_name, $pp_id);
+
+// round_id is an auto-incremented value so it is set to 0.
+$round_id = 0;
+
+// round_name is a string of max length 20
+$round_name = "Some Name";
+
+// Needs to be a valid pp_id
+$pp_id = 72;
+
+$stmt -> execute();
+
+$stmt->close();
+$conn->close();
+?>
+
+
+
+<?php
+
+// Used to INSERT INTO the school table the needed information from the user
+
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "myDB";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// prepare and bind
+$stmt = $conn->prepare("INSERT INTO school (school_id, school_name, region_id) VALUES (?, ?, ?)");
+$stmt->bind_param("isi", $school_id, $school_name, $region_id);
+
+// school_id is an auto-incremented value so it is set to 0.
+$school_id = 0;
+
+// school_name is a string that is max length 20
+$school_name = "Some Name";
+
+// Needs to be a valid region_id
+$region_id = 72;
+
+$stmt -> execute();
+
+$stmt->close();
+$conn->close();
+?>
+
+
+
+<?php
+
+// Used to INSERT INTO the scratches table the needed information from the user
+
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "myDB";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// prepare and bind
+$stmt = $conn->prepare("INSERT INTO scratches (judge_id, speaker_id) VALUES (?, ?)");
+$stmt->bind_param("ii", $judge_id, $speaker_id);
+
+// Needs to be a valid judge_id
+$judge_id = 0;
+
+// Needs to be a valid speaker_id
+$speaker_id = 123;
+
+$stmt -> execute();
+
+$stmt->close();
+$conn->close();
+?>
+
+
+
+<?php
+
+// Used to INSERT INTO the speaker table the needed information from the user
+
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "myDB";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// prepare and bind
+$stmt = $conn->prepare("INSERT INTO speaker (speaker_id, speaker_first_name, speaker_last_name, rank, school_id, team_id) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("issiii", $speaker_id, $speaker_first_name, $speaker_last_name, $rank, $school_id, $team_id);
+
+//speaker_id is an auto-increment value so it is initialized to zero
+$speaker_id = 0;
+
+//speaker_first_name is a string of 20 characters max
+$speaker_first_name = "John";
+
+// speaker_last_name is a string of 20 characters max
+$speaker_last_name = "Doe";
+
+// rank is an unbounded int
+$rank = 1;
+
+// Needs to ba a valid school_id
+$school_id = 457;
+
+//Needs to be a valid team_id
+$team_id = 869;
+
+$stmt -> execute();
+
+$stmt->close();
+$conn->close();
+?>
+
+<?php
+
+// Used to INSERT INTO the team table the needed information from the user
+
+$servername = "localhost";
+$username = "username";
+$password = "password";
+$dbname = "myDB";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// prepare and bind
+$stmt = $conn->prepare("INSERT INTO team (team_id, team_name, school_id, team_rank) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("isii", $team_id, $team_name, $school_id, $team_rank);
+
+// team_id is an auto-incremented value so it is initialized to zero.
+$team_id = 0;
+
+// team_name is a string of max length 20
+$team_name = "Clever Name";
+
+// Needs to be a valid school_name
+$school_id = 786;
+
+// team_rank is an unbounded integer
+$team_rank = 7;
+
+$stmt -> execute();
+
+$stmt->close();
+$conn->close();
+?>
