@@ -2,6 +2,10 @@ body
 {
 		background-color: #939EAC;
 }
+.clear
+{
+	clear: both;
+}
 
 #header
 {
@@ -50,14 +54,15 @@ body
 .navbutton a:hover
 {
 	color: #002033;
-	text-decoration: underline;
-	text-decoration-color: #F4FA40;
+	border-bottom: 3px solid #F4FA40;
 }
 .navbutton a:active
 {
 	color: #F4FA40;
-	text-decoration: underline;
-	text-decoration-color: #F4FA40;
+}
+#activeNav
+{
+	border-bottom: 2px solid #F4FA40;
 }
 
 
@@ -68,29 +73,73 @@ body
 
 #content
 {
-	padding: 100 20 20 20;
+	box-sizing: border-box;
+	padding: 90 20 20 20;
 	background-color: white;
-	height: 100%;
+	min-height: 700px;
 	width: 980px;
 	min-width: 980px;
 	max-width: 980px;
 	margin: auto;
 	box-shadow: 0px 0px 10px grey;
 }
-
-.reg_section_closed
+#content.registration
 {
+	padding: 70 0 20 0;
+}
+
+.reg_section
+{
+	box-sizing: border-box;
 	display: block;
-	width: 100%;
+	width: 980px;
+	padding: 15px 20px 0px 20px;
+	border-bottom: solid;
+}
+.reg_section.closed
+{
 	height: 50px;
 	background-color: #B4D2DA;
 }
-.reg_section_closed a:link, a:hover, a:active
+.reg_section.closed a:link, a:hover, a:active
 {
 	color: #002033;
 	text-decoration: none;
 }
-.reg_section_closed:hover
+.reg_section.closed:hover
 {
 	background-color: #F4FA40;
+}
+.reg_section.open
+{
+	padding: 15px 20px 20px 20px;
+}
+
+.button
+{
+	display: inline;
+	padding: 10 30 10 30;
+	color: #002033;
+	border-color: #002033;
+	background-color: #B4D2DA;
+}
+#buttonbar .button
+{
+	float: left;
+	border-left: solid;
+	border-size: 1;
+	border-color: #2C91BD;
+}
+#buttonbar .button.left
+{
+	border-left: none;
+}
+#activeBar
+{
+	background-color: #F4FA40;
+}
+
+#tournaments_content
+{
+
 }

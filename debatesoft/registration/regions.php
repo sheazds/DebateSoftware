@@ -1,59 +1,41 @@
  <?php
-// this will get moved to an external php file in the future
-$servername = "localhost";
-$username = "dbsadmin";
-$password = "dbspassadmin";
-$dbname = "attempt1";
+	require_once '../dbconfig.php';
+	$sql = "SELECT region_id, region_name FROM region";
+	$result = $conn->query($sql);
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
-echo "Connected successfully";
-
-
-$sql = "SELECT region_id, region_name FROM region";
-$result = $conn->query($sql);
-
-if ($result->num_rows > 0) {
-    // output data of each row
-	echo "<table>";
-		echo "<tr>";
-		echo "<th>region_id</th>";
-		echo "<th>region_name</th>";
-		echo "<th></th>";
-	echo "</tr>";
-	
-    while($row = $result->fetch_assoc())
-	{
-		echo "<tr>";
-			echo "<td>" . $row["region_id"]. "</td>";
-			echo "<td>" . $row["region_name"]. "</td>";
-			echo "<td></td>";
+	if ($result->num_rows > 0) {
+		// output data of each row
+		echo "<table>";
+			echo "<tr>";
+			echo "<th>region_id</th>";
+			echo "<th>region_name</th>";
+			echo "<th></th>";
 		echo "</tr>";
-    }
-} else {
-    echo "<br> 0 results";	
-}
-
-?>	
-
- <?php
-if(isset($_POST["submit"]))
-{
-	$id = $_POST["region_id"];
-	$name = $_POST["region_name"];
-    $sql = "INSERT INTO region (region_id, region_name) VALUES ('$id', '$name')";
-	if ($conn->query($sql) === TRUE) {
-		echo "New record created successfully";
-		header("Refresh:0");
+		
+		while($row = $result->fetch_assoc())
+		{
+			echo "<tr>";
+				echo "<td>" . $row["region_id"]. "</td>";
+				echo "<td>" . $row["region_name"]. "</td>";
+				echo "<td></td>";
+			echo "</tr>";
+		}
 	} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+		echo "<br> 0 results";	
 	}
-}
+
+	if(isset($_POST["submit"]))
+	{
+		$id = $_POST["region_id"];
+		$name = $_POST["region_name"];
+		$sql = "INSERT INTO region (region_id, region_name) VALUES ('$id', '$name')";
+		if ($conn->query($sql) === TRUE) {
+			echo "New record created successfully";
+			header("Refresh:0");
+		} else {
+		echo "Error: " . $sql . "<br>" . $conn->error;
+		}
+	}
 ?>
 
 	<tr>
