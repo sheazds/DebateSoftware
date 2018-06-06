@@ -25,6 +25,27 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Drops all the tables from the database.
+--
+
+DROP TABLE IF EXISTS `ballot_team`;
+DROP TABLE IF EXISTS `pairing_team`;
+DROP TABLE IF EXISTS `judge_pairing`;
+DROP TABLE IF EXISTS `ballot_speaker_scores`;
+DROP TABLE IF EXISTS `ballot_round`;
+DROP TABLE IF EXISTS `scratches`;
+DROP TABLE IF EXISTS `speaker`;
+DROP TABLE IF EXISTS `team`;
+DROP TABLE IF EXISTS `judge`;
+DROP TABLE IF EXISTS `ballot`;
+DROP TABLE IF EXISTS `round`;
+DROP TABLE IF EXISTS `room`;
+DROP TABLE IF EXISTS `pairing`;
+DROP TABLE IF EXISTS `pairing_preference`;
+DROP TABLE IF EXISTS `school`;
+DROP TABLE IF EXISTS `region`;
+
+--
 -- Table structure for table `ballot`
 -- Connects the ballots to the rooms in which the debate took place.
 --
@@ -81,7 +102,6 @@ CREATE TABLE `ballot_team` (
 CREATE TABLE `judge` (
   `judge_id` int(11) NOT NULL,
   `judge_first_name` varchar(20) NOT NULL,
-  `judge_middle_name` varchar(20) DEFAULT NULL,
   `judge_last_name` varchar(20) NOT NULL,
   `rank` int(11) DEFAULT NULL,
   `school_id` int(11) DEFAULT NULL
@@ -137,7 +157,6 @@ CREATE TABLE `pairing_preference` (
 
 -- --------------------------------------------------------
 
---TODO might not be necessary
 -- Table structure for table `pairing_team`
 -- Associates each team with a pairing
 
@@ -219,7 +238,6 @@ CREATE TABLE `scratches` (
 CREATE TABLE `speaker` (
   `speaker_id` int(11) NOT NULL,
   `speaker_first_name` varchar(20) NOT NULL,
-  `speaker_middle_name` varchar(20) DEFAULT NULL,
   `speaker_last_name` varchar(20) NOT NULL,
   `rank` int(11) DEFAULT NULL,
   `school_id` int(11) DEFAULT NULL,
@@ -236,7 +254,8 @@ CREATE TABLE `speaker` (
 CREATE TABLE `team` (
   `team_id` int(11) NOT NULL,
   `team_name` varchar(20) DEFAULT NULL,
-  `school_id` int(11) DEFAULT NULL
+  `school_id` int(11) DEFAULT NULL,
+  `team_rank` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
