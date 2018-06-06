@@ -149,7 +149,10 @@ CREATE TABLE `pairing_preference` (
   `max_allowed_govt_assistants` int(20) DEFAULT NULL,
   `random_room_assignment` char(1) DEFAULT NULL,
   `bracket_type` varchar(20) NOT NULL,
-  `fix_team_conflicts` varchar(20) NOT NULL,
+  `same_school` int(1),
+  `same_region` int(1),
+  `pullup_only_once` int(1),
+  `previously_paired` int(1),
   `pullout_type` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
