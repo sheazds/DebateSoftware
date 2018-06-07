@@ -139,7 +139,32 @@ body
 	background-color: #F4FA40;
 }
 
-#tournaments_content
+#brackets
 {
-
+	border-style: solid;
+	width: auto;
+	height: 100%;
+	overflow: auto;
+}
+#brackets .round
+{
+	position: relative;
+	float: left;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+#brackets .pair_spacer
+{
+	flex: 1;
+	margin: 10;
+	position: relative;
+}
+#brackets .pair
+{
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	border-style: solid;
+	padding: 10px;
 }
