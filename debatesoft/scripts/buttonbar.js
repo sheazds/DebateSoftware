@@ -14,8 +14,8 @@ $(document).ready(function(){
 				$("#activeBar").removeClass(currentBar);
 				$("#activeBar").attr("id", currentBar);
 			}
-			$("#tournaments_content").empty();
-			$("#tournaments_content").load("tournaments/"+newSection+".php");
+			$("#content").empty();
+			$("#content").load($("#content").attr('class')+"/"+newSection+".php");
 			$("#"+newSection).addClass(newSection);
 			$("#"+newSection).attr("id", "activeBar");	
 		});

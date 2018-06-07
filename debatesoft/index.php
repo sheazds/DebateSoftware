@@ -9,7 +9,7 @@
 		<?php require 'nav.php'; ?>
 		<div id="main">
 			<div id="content">
-				<?php include 'tournaments.php';?>
+				
 			</div>
 		</div>
 	</body>

@@ -17,6 +17,7 @@ body
 	left: 0;
 	background-color: #2C91BD;
 	box-shadow: 0px 0px 10px grey;
+	z-index: 5;
 }
 
 #headercontent
@@ -39,28 +40,28 @@ body
 	float: right;
 	margin-right: -20px;
 }
-.navbutton
+#navigation .navbutton
 {
 	text-color: #002033;
 	float: left;
 	font-size: 24px;
 	margin: 10 20px;
 }
-.navbutton a
+#navigation .navbutton a
 {
 	color: #002033;
 	text-decoration: none;
 }
-.navbutton a:hover
+#navigation .navbutton a:hover
 {
 	color: #002033;
 	border-bottom: 3px solid #F4FA40;
 }
-.navbutton a:active
+#navigation .navbutton a:active
 {
 	color: #F4FA40;
 }
-#activeNav
+#navigation .activenav
 {
 	border-bottom: 2px solid #F4FA40;
 }
@@ -68,10 +69,6 @@ body
 
 
 #main
-{
-}
-
-#content
 {
 	box-sizing: border-box;
 	padding: 90 20 20 20;
@@ -83,9 +80,11 @@ body
 	margin: auto;
 	box-shadow: 0px 0px 10px grey;
 }
+
 #content.registration
 {
-	padding: 70 0 20 0;
+	box-sizing: border-box;
+	margin: -20 -20 -20 -20;
 }
 
 .reg_section
@@ -123,6 +122,11 @@ body
 	border-color: #002033;
 	background-color: #B4D2DA;
 }
+#buttonbar
+{
+	margin-bottom: 15px;
+	height: 40px;
+}
 #buttonbar .button
 {
 	float: left;
@@ -139,32 +143,35 @@ body
 	background-color: #F4FA40;
 }
 
-#brackets
+#tournamentbrackets
 {
 	border-style: solid;
-	width: auto;
-	height: 100%;
 	overflow: auto;
+	display: flex;
+	min-height: 600px;
+	margin-bottom: 20px;
 }
-#brackets .round
+#tournamentbrackets .round
 {
-	position: relative;
 	float: left;
 	display: flex;
-	flex-direction: column;
-	height: 100%;
+	flex-direction: column;		
 }
-#brackets .pair_spacer
+#tournamentbrackets .pair_spacer
 {
 	flex: 1;
 	margin: 10;
 	position: relative;
 }
-#brackets .pair
+#tournamentbrackets .pair
 {
 	position: relative;
 	top: 50%;
 	transform: translateY(-50%);
 	border-style: solid;
 	padding: 10px;
+}
+#tournamentbrackets .pair td
+{
+	padding-right: 5px;
 }

@@ -1,5 +1,5 @@
 <?php
-	require_once 'dbconfig.php';
+	require_once '../dbconfig.php';
 	$fullpairings = "SELECT pairing.pairing_id, pairing.round_id, team1.team_name AS team1_name, team2.team_name AS team2_name, room.room_name, judge.judge_first_name, judge.judge_last_name
 			FROM pairing
 			INNER JOIN team AS team1
@@ -13,7 +13,7 @@
 			INNER JOIN judge
 				ON judge_pairing.judge_id = judge.judge_id";
 	
-	echo "<div id='brackets'>";
+	echo "<div id='tournamentbrackets'>";
 		$prevround = null;
 		$prevpair = null;
 		$result = $conn->query($fullpairings);
@@ -24,7 +24,7 @@
 			
 			if ($currentpair != $prevpair)
 				if ($prevpair != null)
-					echo "</div></div>";
+					echo "</td></tr></table></div></div>";
 			if ($currentround != $prevround)
 			{
 				if ($prevround != null)
@@ -35,17 +35,18 @@
 			{
 				echo "<div class='pair_spacer'>";
 				echo "<div id='pair".$currentpair."' class='pair'>";
-				echo "<div class='teamname'>".$row['team1_name']."</div>";
-				echo "<div class='teamname'>".$row['team2_name']."</div>";
-				echo "<div class='room'>".$row['room_name']."</div>";
-				echo "<div class='judgename'>".$row['judge_first_name']." ".$row['judge_last_name']."</div>";
+				echo "<table>";
+				echo "<tr><td><b>Teams:</b></td><td>".$row['team1_name']."<br />".$row['team2_name']."</td></tr>";
+				echo "<tr><td><b>Room:</b></td><td>".$row['room_name']."</td></tr>";
+				echo "<tr><td><b>Judges:</b></td><td>".$row['judge_first_name']." ".$row['judge_last_name'];
 			}
 			else
 			{
-				echo "<div class='judgename'>".$row['judge_first_name']." ".$row['judge_last_name']."</div>";
+				echo "<br />".$row['judge_first_name']." ".$row['judge_last_name'];
 			}
 			$prevround = $currentround;
 			$prevpair = $currentpair;
 		}
+	echo "</td></tr></table></div></div></div>";
 	echo "</div>";
 ?>
