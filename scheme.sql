@@ -77,7 +77,12 @@ CREATE TABLE `ballot_round` (
 CREATE TABLE `ballot_speaker_scores` (
   `ballot_id` int(11) DEFAULT NULL,
   `speaker_id` int(11) DEFAULT NULL,
-  `score` int(11) DEFAULT NULL
+  `orginization/structure` int(3),
+  `evidence/analysis` int(3),
+  `rebuttal/clash` int(3),
+  `delivery/etiquette` int(3),
+  `questioning/responding` int(3),
+  `comments` varchar(300)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

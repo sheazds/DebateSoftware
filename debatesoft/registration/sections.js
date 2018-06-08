@@ -12,6 +12,10 @@ $(document).ready(function(){
 		openSection(currentSection, "teams");
 		currentSection = "teams";
 	});
+    	$("#speakers").click(function(){
+        openSection(currentSection, "speakers");
+        currentSection = "speakers";
+    });
 		$("#judges").click(function(){
 		openSection(currentSection, "judges");
 		currentSection = "judges";
