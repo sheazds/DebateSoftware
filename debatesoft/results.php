@@ -9,13 +9,7 @@
 		<?php require 'nav.php'; ?>
 		<script>$("#navigation").find("#results").addClass("activenav");</script>
 		<div id="main">
-			<script src="scripts/buttonbar.js"></script>
-			<div id="buttonbar">
-				<a class="button" href="#" id="round1">Round 1</a>
-				<a class="button" href="#" id="round2">Round 2</a>
-				<a class="button" href="#" id="round3">Round 3</a>
-				<a class="button" href="#" id="brackets">View as Bracket</a>
-			</div>
+			<?php require 'results/getresults.php'; ?>
 			<div class="clear"></div>
 			
 			<div id="content" class="results">	</div>

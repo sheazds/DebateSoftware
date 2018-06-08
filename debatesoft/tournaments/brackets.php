@@ -24,7 +24,7 @@
 			
 			if ($currentpair != $prevpair)
 				if ($prevpair != null)
-					echo "</td></tr></table></div></div>";
+					echo "</td></tr></tbody></table></div></div>";
 			if ($currentround != $prevround)
 			{
 				if ($prevround != null)
@@ -35,7 +35,7 @@
 			{
 				echo "<div class='pair_spacer'>";
 				echo "<div id='pair".$currentpair."' class='pair'>";
-				echo "<table>";
+				echo "<table><tbody>";
 				echo "<tr><td><b>Teams:</b></td><td>".$row['team1_name']."<br />".$row['team2_name']."</td></tr>";
 				echo "<tr><td><b>Room:</b></td><td>".$row['room_name']."</td></tr>";
 				echo "<tr><td><b>Judges:</b></td><td>".$row['judge_first_name']." ".$row['judge_last_name'];
