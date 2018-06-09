@@ -32,14 +32,14 @@ mysqli_query($conn,"DELETE FROM school" );
  mysqli_query($conn,"INSERT INTO school(school_id, school_name, region_id) VALUES ('6','UONT','3')");
  
 mysqli_query($conn,"DELETE FROM team" );
- mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id) VALUES ('1','UnrealTeam','1')");
- mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id) VALUES ('2','NotRealTeam','2')");
- mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id) VALUES ('3','FictionTeam','3')");
- mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id) VALUES ('4','AnotherTeam','3')");
- mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id) VALUES ('5','OtherTEam','4')");
- mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id) VALUES ('6','YetAnother','5')");
- mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id) VALUES ('7','OneMoreTeam','6')");
- mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id) VALUES ('8','LastTeam','6')");
+ mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('1','UnrealTeam','1','0','0')");
+ mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('2','NotRealTeam','2','0','0')");
+ mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('3','FictionTeam','3','0','0')");
+ mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('4','AnotherTeam','3','0','0')");
+ mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('5','OtherTEam','4','0','0')");
+ mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('6','YetAnother','5','0','0')");
+ mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('7','OneMoreTeam','6','0','0')");
+ mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('8','LastTeam','6','0','0')");
 
 mysqli_query($conn,"DELETE FROM speaker" );
  mysqli_query($conn,"INSERT INTO speaker(speaker_id, speaker_first_name, speaker_middle_name, speaker_last_name, rank, school_id, team_id) VALUES ('1','Adam','Midname','Surname','3','1','1')");
