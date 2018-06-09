@@ -38,9 +38,9 @@ DROP TABLE IF EXISTS `speaker`;
 DROP TABLE IF EXISTS `team`;
 DROP TABLE IF EXISTS `judge`;
 DROP TABLE IF EXISTS `ballot`;
+DROP TABLE IF EXISTS `pairing`;
 DROP TABLE IF EXISTS `round`;
 DROP TABLE IF EXISTS `room`;
-DROP TABLE IF EXISTS `pairing`;
 DROP TABLE IF EXISTS `pairing_preference`;
 DROP TABLE IF EXISTS `school`;
 DROP TABLE IF EXISTS `region`;
@@ -52,7 +52,7 @@ DROP TABLE IF EXISTS `region`;
 
 CREATE TABLE `ballot` (
   `ballot_id` int(11) NOT NULL,
-  `room_id` int(11) DEFAULT NULL
+  `room_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -75,13 +75,13 @@ CREATE TABLE `ballot_round` (
 --
 
 CREATE TABLE `ballot_speaker_scores` (
-  `ballot_id` int(11) DEFAULT NULL,
-  `speaker_id` int(11) DEFAULT NULL,
-  `orginization/structure` int(3),
-  `evidence/analysis` int(3),
-  `rebuttal/clash` int(3),
-  `delivery/etiquette` int(3),
-  `questioning/responding` int(3),
+  `ballot_id` int(11) NOT NULL,
+  `speaker_id` int(11) NOT NULL,
+  `organization/structure` int(3)NOT NULL,
+  `evidence/analysis` int(3) NOT NULL,
+  `rebuttal/clash` int(3) NOT NULL,
+  `delivery/etiquette` int(3) NOT NULL ,
+  `questioning/responding` int(3) NOT NULL ,
   `comments` varchar(300)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -109,7 +109,7 @@ CREATE TABLE `judge` (
   `judge_first_name` varchar(20) NOT NULL,
   `judge_last_name` varchar(20) NOT NULL,
   `rank` int(11) DEFAULT NULL,
-  `school_id` int(11) DEFAULT NULL
+  `school_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -120,8 +120,8 @@ CREATE TABLE `judge` (
 --
 
 CREATE TABLE `judge_pairing` (
-  `pairing_id` int(11) DEFAULT NULL,
-  `judge_id` int(11) DEFAULT NULL
+  `pairing_id` int(11) NOT NULL,
+  `judge_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -149,15 +149,15 @@ CREATE TABLE `pairing_preference` (
   `pp_id` int(11) NOT NULL,
   `pp_name` varchar(20) NOT NULL,
   `custom_bracket_size` int(11) DEFAULT NULL,
-  `reseed_pullout` int(11) DEFAULT NULL,
+  `reseed_pullout` char(1) DEFAULT NULL,
   `matching_type` varchar(20) DEFAULT NULL,
-  `max_allowed_govt_assistants` int(20) DEFAULT NULL,
+  `max_allowed_govt_assignments` int(20) DEFAULT NULL,
   `random_room_assignment` char(1) DEFAULT NULL,
   `bracket_type` varchar(20) NOT NULL,
-  `same_school` int(1),
-  `same_region` int(1),
-  `pullup_only_once` int(1),
-  `previously_paired` int(1),
+  `same_school` char(1),
+  `same_region` char(1),
+  `pullup_only_once` char(1),
+  `previously_paired` char(1),
   `pullout_type` varchar(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -206,7 +206,7 @@ CREATE TABLE `room` (
 CREATE TABLE `round` (
   `round_id` int(11) NOT NULL,
   `round_name` varchar(20) DEFAULT NULL,
-  `pp_id` int(11) DEFAULT NULL
+  `pp_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -219,7 +219,7 @@ CREATE TABLE `round` (
 CREATE TABLE `school` (
   `school_id` int(11) NOT NULL,
   `school_name` varchar(20) NOT NULL,
-  `region_id` int(11) DEFAULT NULL
+  `region_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -246,7 +246,7 @@ CREATE TABLE `speaker` (
   `speaker_first_name` varchar(20) NOT NULL,
   `speaker_last_name` varchar(20) NOT NULL,
   `rank` int(11) DEFAULT NULL,
-  `school_id` int(11) DEFAULT NULL,
+  `school_id` int(11) NOT NULL,
   `team_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -260,8 +260,10 @@ CREATE TABLE `speaker` (
 CREATE TABLE `team` (
   `team_id` int(11) NOT NULL,
   `team_name` varchar(20) DEFAULT NULL,
-  `school_id` int(11) DEFAULT NULL,
-  `team_rank` int(11) DEFAULT 0
+  `school_id` int(11) NOT NULL,
+  `team_rank` int(11) DEFAULT 0,
+  `num_times_opp` int(11) DEFAULT 0,
+  `num_times_gov` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
