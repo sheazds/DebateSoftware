@@ -143,7 +143,7 @@ body
 	background-color: #F4FA40;
 }
 
-#tournamentbrackets
+#tournamentbrackets, #resultbrackets
 {
 	border-style: solid;
 	overflow: auto;
@@ -151,27 +151,46 @@ body
 	min-height: 600px;
 	margin-bottom: 20px;
 }
-#tournamentbrackets .round
+#resultbrackets
+{
+	display: block;
+}
+#tournamentbrackets .round, #resultbrackets .round
 {
 	float: left;
 	display: flex;
 	flex-direction: column;		
 }
-#tournamentbrackets .pair_spacer
+#resultbrackets .round
+{
+	float: none;
+	display: table-row;
+	width: 100%;
+}
+#tournamentbrackets .pair_spacer, #resultbrackets .pair_spacer
 {
 	flex: 1;
 	margin: 10;
 	position: relative;
 }
-#tournamentbrackets .pair
+#resultbrackets .pair_spacer
+{
+	float: left;
+}
+#tournamentbrackets .pair, #resultbrackets .pair
 {
 	position: relative;
 	top: 50%;
 	transform: translateY(-50%);
 	border-style: solid;
 	padding: 10px;
+	min-width: 175px;
 }
-#tournamentbrackets .pair td
+#resultbrackets .pair
+{
+	transform: none;
+}
+#tournamentbrackets .pair td, #resultbrackets .pair td
 {
 	padding-right: 5px;
 }
