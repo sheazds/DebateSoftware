@@ -62,25 +62,25 @@
 				echo " <button id='button_pair".$currentpair."_judge".$row['judge_id']."' onclick='expandballot(id)'>+</button>";
 				echo "<div id='ballot_pair".$currentpair."_judge".$row['judge_id']."' class='ballotpair' style='display: none'>";
 				echo "<table class='ballotstable'><tbody>";
-				$ballots_queery = "SELECT judge_ballot.pairing_id, judge.judge_id, CONCAT(speaker.speaker_first_name, ' ', speaker.speaker_last_name) AS speaker_name, ballot_speaker_scores.speaker_id, `ballot_speaker_scores`.`organization/structure`, `ballot_speaker_scores`.`evidence/analysis`, `ballot_speaker_scores`.`rebuttal/clash`, `ballot_speaker_scores`.`delivery/etiquette`, `ballot_speaker_scores`.`questioning/responding`, `ballot_speaker_scores`.`comments`
+				$ballots_query = "SELECT judge_ballot.pairing_id, judge.judge_id, team.team_name, CONCAT(speaker.speaker_first_name, ' ', speaker.speaker_last_name) AS speaker_name, ballot_speaker_scores.speaker_id, `ballot_speaker_scores`.`organization/structure`, `ballot_speaker_scores`.`evidence/analysis`, `ballot_speaker_scores`.`rebuttal/clash`, `ballot_speaker_scores`.`delivery/etiquette`, `ballot_speaker_scores`.`questioning/responding`, `ballot_speaker_scores`.`comments`
 								FROM judge
 								INNER JOIN judge_ballot ON judge.judge_id = judge_ballot.judge_id
 								INNER JOIN ballot_speaker_scores ON judge_ballot.ballot_id = ballot_speaker_scores.ballot_id
 								INNER JOIN speaker ON ballot_speaker_scores.speaker_id = speaker.speaker_id
-								WHERE judge_ballot.pairing_id = ".$currentpair." judge.judge_id = ".$row['judge_id']."
+								INNER JOIN team on speaker.team_id = team.team_id
+								WHERE judge_ballot.pairing_id = ".$currentpair." AND judge.judge_id = ".$row['judge_id']."
 								ORDER BY `judge_ballot`.`pairing_id`, judge_ballot.judge_id, speaker.speaker_id ASC";
-				//$ballots_result = $conn->query($ballots_queery);	
-				//$ballots_result = mysql_fetch_array($ballots_queery);
-				for ($i=0; $i<4; $i++)
+				$ballots_result = $conn->query($ballots_query);
+				$j=0;
+				while($row = $ballots_result->fetch_assoc())
 				{
-					//$ballots_row = $ballot_result[$i];
-					if($i%2==0)
+					if($j%2==0)
 						echo "<tr>";
 					echo "<td class='ballotstd'>";
-					echo "<div id='ballot_speakerX' class='ballot_speaker'><table class='ballot_inner_table'><tbody>";
+					echo "<div id='ballot_speaker' class='ballot_speaker'><table class='ballot_inner_table'><tbody>";
 						echo "<tr><td>Speaker:</td>
-							<td>speakername</td>
-							<td>Team Code: 1</td></tr>";
+							<td>".$row['speaker_name']."</td>
+							<td>Team Name:</br />".$row['team_name']."</td></tr>";
 					
 						echo "<tr><td>Criteria</td>";
 						echo "<td><table><tbody><tr>
@@ -149,8 +149,9 @@
 							
 					echo "</tbody></table></div>";
 					echo "</td>";
-					if($i==1 || $i==3)
+					if($j==1 || $j==3)
 						echo "</tr>";
+					$j++;
 				}
 				echo "</tbody></table>";
 				echo "</div>";
