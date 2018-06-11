@@ -27,7 +27,7 @@
      echo "<br> 0 results";
  }
 
- if(isset($_POST["room_name"]))
+ if(isset($_POST["rooms_name"]))
  {
 
      $stmt = $conn->prepare("INSERT INTO room (room_id, room_name, room_priority) VALUES (?, ?, ?)");
@@ -37,22 +37,24 @@
      $room_id = 0;
 
      // room_name is a string of max length 20
-     $room_name = $_POST["room_name"];
+     $room_name = $_POST['rooms_name'];
 
      // Unbounded integer that can be bound to acceptable values.
-     $room_priority = $_POST["room_priority"];
+     $room_priority = $_POST['room_priority'];
 
      if ($stmt -> execute() === TRUE) {
          echo "New record created successfully";
          header("Refresh:0");
+
      } else {
          echo "Error: " . $stmt . "<br>" . $conn->error;
      }
+     echo "<meta http-equiv='refresh' content='0;URL=http://localhost/debatesoft/registration.php'/>";
  }
 ?>
 
 	<tr>
-		<form method="post">
+		<form method="post" action="registration/rooms.php">
 			<td>
                 <?php
                 require_once '../dbconfig.php';

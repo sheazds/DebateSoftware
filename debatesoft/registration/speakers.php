@@ -38,14 +38,11 @@ if (isset($_POST['speaker_first_name'])) {
 
     $team_name = $_POST['team_name'];
 
-    $sql2 = $conn->prepare("SELECT school_id FROM school INNER JOIN team WHERE school.school_id = team.school_id 
-      AND team_name = ?");
-    $sql2->bind_param(s, $team_name);
-    $result2 = $sql2->execute();
+    $sql2 = "SELECT school_id FROM team WHERE team_name = '$team_name'";
+    $result2 = $conn->query($sql2);
 
-    $sql3 = $conn->prepare("SELECT team_id FROM team WHERE team.team_name = ?");
-    $sql3->bind_param(s, $team_name);
-    $result3 = $sql3->execute();
+    $sql3 = "SELECT team_id FROM team WHERE team.team_name = '$team_name'";
+    $result3 = $conn->query($sql3);
 
     //speaker_id is an auto-increment value so it is initialized to zero
     $speaker_id = 0;
@@ -61,17 +58,17 @@ if (isset($_POST['speaker_first_name'])) {
 
     // Needs to ba a valid school_id
     $row2 = $result2->fetch_assoc();
-    $school_id = $row2["school_id"];
+    $school_id = $row2['school_id'];
 
     //Needs to be a valid team_id
     $row3 = $result3->fetch_assoc();
-    $team_id = $row3["team_id"];
+    $team_id = $row3['team_id'];
 
-    $stmt->execute();
 
     if ($stmt->execute() === TRUE) {
         echo "New record created successfully";
         header("Refresh:0");
+        echo "<meta http-equiv='refresh' content='0;URL=http://localhost/debatesoft/registration.php#'/>";
     } else {
         echo "Error: " . $stmt . "<br>" . $conn->error;
     }
@@ -79,7 +76,7 @@ if (isset($_POST['speaker_first_name'])) {
 ?>
 
 <tr>
-    <form method="post">
+    <form method="post"action="registration/speakers.php">
         <td>
             <?php
             require_once '../dbconfig.php';

@@ -31,10 +31,9 @@ if (isset($_POST["team_name"])) {
     $stmt = $conn->prepare("INSERT INTO team (team_id, team_name, school_id, team_rank) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("isii", $team_id, $team_name, $school_id, $team_rank);
 
-    $sql2 = $conn->prepare("SELECT school_id FROM school WHERE school.school_name = ?");
     $school_name = $_POST['school_name'];
-    $sql2->bind_param(s, $school_name);
-    $result2 = $sql2->execute();
+    $sql2 = "SELECT school_id FROM school WHERE school.school_name = '$school_name'";
+    $result2 = $conn->query($sql2);
     // team_id is an auto-incremented value so it is initialized to zero.
     $team_id = 0;
 
@@ -50,6 +49,7 @@ if (isset($_POST["team_name"])) {
     if ($stmt->execute() === TRUE) {
         echo "New record created successfully";
         header("Refresh:0");
+        echo "<meta http-equiv='refresh' content='0;URL=http://localhost/debatesoft/registration.php#'/>";
     } else {
         echo "Error: " . $stmt . "<br>" . $conn->error;
     }
@@ -57,7 +57,7 @@ if (isset($_POST["team_name"])) {
 ?>
 
 <tr>
-    <form method="post">
+    <form method="post" action="registration/teams.php">
         <td>
             <?php
             require_once '../dbconfig.php';
