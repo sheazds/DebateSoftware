@@ -28,6 +28,10 @@
 			echo "<div class='pair_spacer'>";
 			echo "<div id='pair".$currentpair."' class='pair'>";
 			echo "<table><tbody>";
+			
+			echo "<tr><td><div class='allballots'><b>Ballots: </b></div></td>";
+			echo "<td>X/Y</td></tr>";
+			
 			echo "<tr><td><b>Room:</b></td><td>".$row['room_name']."</td></tr>";
 			
 			echo "<tr><td><b>Teams:</b></td><td>";
@@ -44,7 +48,7 @@
 			echo "</td></tr>";
 			
 			echo "<tr><td><b>Judges:</b></td><td>";
-			$judgepairings = "SELECT pairing.pairing_id, CONCAT(judge.judge_first_name,' ',judge.judge_last_name) AS judge_name
+			$judgepairings = "SELECT pairing.pairing_id, judge.judge_id, CONCAT(judge.judge_first_name,' ',judge.judge_last_name) AS judge_name
 				FROM pairing
 					INNER JOIN judge_pairing
 						ON pairing.pairing_id = judge_pairing.pairing_id
@@ -53,10 +57,99 @@
 					WHERE pairing.pairing_id = ".$currentpair;
 			$judgeresult = $conn->query($judgepairings);
 			while($row = $judgeresult->fetch_assoc())
-				echo $row['judge_name']."<br />";
-			echo "</td></tr></tbody></table></div></div>";
+			{
+				echo $row['judge_name'];
+				echo " <button id='button_pair".$currentpair."_judge".$row['judge_id']."' onclick='expandballot(id)'>+</button>";
+				echo "<div id='ballot_pair".$currentpair."_judge".$row['judge_id']."' class='ballotpair' style='display: none'>";
+				echo "<table class='ballotstable'><tbody>";
+				for ($i=0; $i<4; $i++)
+				{
+					if($i%2==0)
+						echo "<tr>";
+					echo "<td class='ballotstd'>";
+					echo "<div id='ballot_speakerX' class='ballot_speaker'><table class='ballot_inner_table'><tbody>";
+						echo "<tr><td>Speaker:</td>
+							<td>name</td>
+							<td>Team Code: 1</td></tr>";
+					
+						echo "<tr><td>Criteria</td>";
+						echo "<td><table><tbody><tr>
+							<td>15<br />Poor</td>
+							<td>16<br />Weak</td>
+							<td>17<br />Avg</td>
+							<td>18<br />Good</td>
+							<td>19<br />Great</td>
+							</tr></tbody></table></td>";
+						echo "<td>Totals</td></tr>";
+						
+						echo "<tr><td style='text-align: center'>Organization/<br />Structure</td>
+							<td><form action=''>
+									<input type='radio' name='orgstruc'>
+									<input type='radio' name='orgstruc'>
+									<input type='radio' name='orgstruc'>
+									<input type='radio' name='orgstruc'>
+									<input type='radio' name='orgstruc'>
+								</form></td>";
+						echo "<td>score</td></tr>";
+						
+						echo "<tr><td style='text-align: center'>Evidence/<br />Analysis</td>
+							<td><form action=''>
+									<input type='radio' name='evidana'>
+									<input type='radio' name='evidana'>
+									<input type='radio' name='evidana'>
+									<input type='radio' name='evidana'>
+									<input type='radio' name='evidana'>
+								</form></td>";
+						echo "<td>score</td></tr>";
+						
+						echo "<tr><td style='text-align: center'>Rebuttal/<br />Clash</td>
+							<td><form action=''>
+									<input type='radio' name='rebcla'>
+									<input type='radio' name='rebcla'>
+									<input type='radio' name='rebcla'>
+									<input type='radio' name='rebcla'>
+									<input type='radio' name='rebcla'>
+								</form></td>";
+						echo "<td>score</td></tr>";
+						
+						echo "<tr><td style='text-align: center'>Delivery/<br />Etiquette</td>
+							<td><form action=''>
+									<input type='radio' name='deleti'>
+									<input type='radio' name='deleti'>
+									<input type='radio' name='deleti'>
+									<input type='radio' name='deleti'>
+									<input type='radio' name='deleti'>
+								</form></td>";
+						echo "<td>score</td></tr>";
+						
+						echo "<tr><td style='text-align: center'>Questioning/<br />Responding</td>
+							<td><form action=''>
+									<input type='radio' name='questres'>
+									<input type='radio' name='questres'>
+									<input type='radio' name='questres'>
+									<input type='radio' name='questres'>
+									<input type='radio' name='questres'>
+								</form></td>";
+						echo "<td>score</td></tr>";
+						
+						echo "<tr><td colspan='2'>Comments:</br>
+								<textarea rows='4' cols='35'></textarea></td>
+							<td>Total Score:</br>
+							Sum</td></tr>";
+							
+					echo "</tbody></table></div>";
+					echo "</td>";
+					if($i==1 || $i==3)
+						echo "</tr>";
+				}
+				echo "</tbody></table>";
+				echo "</div>";
+				echo "<br />";
+			}
+			echo "</td></tr></tbody></table>";
+		echo "</div></div>";
 			
-			$prevround = $currentround;
+		$prevround = $currentround;
 		}
 	echo "</div>";
 ?>
@@ -70,4 +163,30 @@
 		round = round.replace("button left show","");
 		document.getElementById(round).style.display = "table-row";
 	}
+	
+	function expandballot(buttonid)
+	{	
+		console.log(buttonid);
+		ballotid = buttonid.replace("button","ballot");
+		display = document.getElementById(ballotid).style.display;
+		if (display == "none")
+		{
+			document.getElementById(buttonid).innerHTML = "-";
+			document.getElementById(ballotid).style.display = "inline";
+		}
+		else
+		{
+			document.getElementById(buttonid).innerHTML = "+";
+			document.getElementById(ballotid).style.display = "none";	
+		}
+	}
 </script>
+
+<!--
+SELECT pairing.pairing_id, ballot.ballot_id, ballot_speaker_scores.speaker_id, `ballot_speaker_scores`.`organization/structure`, `ballot_speaker_scores`.`evidence/analysis`, `ballot_speaker_scores`.`rebuttal/clash`, `ballot_speaker_scores`.`delivery/etiquette`, `ballot_speaker_scores`.`questioning/responding`, `ballot_speaker_scores`.`comments`
+FROM ballot
+INNER JOIN room ON ballot.room_id = room.room_id
+INNER JOIN pairing ON room.room_id = pairing.room_id
+INNER JOIN ballot_speaker_scores ON ballot.ballot_id = ballot_speaker_scores.ballot_id
+
+*/-->

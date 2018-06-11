@@ -32,8 +32,6 @@
 					rounds[i].style.display = "none";
 								
 				var currentBar = $("#activeBar").attr('class');
-				if (currentBar == 'button brackets')
-					$("#resultbrackets").load('results/getrounds.php');
 				
 				var newSection = this.id;
 				var round = this.id.replace("show","");
@@ -53,6 +51,11 @@
 		}
 		
 		buttons[i].addEventListener("click", function () {
+			console.log("test");
+			var rounds = document.getElementById("resultbrackets").getElementsByClassName("round");
+			for (var i=0; i<rounds.length; i++)
+				rounds[i].style.display = "table-row";
+			
 			var currentBar = $("#activeBar").attr('class');
 			var newSection = this.id;
 			if (currentBar != null)
@@ -64,8 +67,6 @@
 			}
 			$("#"+newSection).addClass(newSection);
 			$("#"+newSection).attr("id", "activeBar");
-			
-			$("#resultbrackets").load('results/getbrackets.php');
 		});
 	});
 </script>

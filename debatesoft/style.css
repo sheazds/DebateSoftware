@@ -131,7 +131,6 @@ body
 {
 	float: left;
 	border-left: solid;
-	border-size: 1;
 	border-color: #2C91BD;
 }
 #buttonbar .button.left
@@ -193,4 +192,13 @@ body
 #tournamentbrackets .pair td, #resultbrackets .pair td
 {
 	padding-right: 5px;
+}
+
+#resultbrackets .ballot_inner_table
+{
+	padding-left: 5px;
+	padding-bottom: 5px;
+	border-style: solid;
+	border-color: #2C91BD;
+	margin: 5px;
 }
