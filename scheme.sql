@@ -135,7 +135,9 @@ CREATE TABLE `pairing` (
   `pairing_id` int(11) NOT NULL,
   `priority` int(11) DEFAULT NULL,
   `round_id` int(11) NOT NULL,
-  `room_id` int(11) NOT NULL
+  `room_id` int(11) NOT NULL,
+  `match_gov_team_id` int(11) NOT NULL,
+  `match_opp_team_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -266,6 +268,15 @@ CREATE TABLE `team` (
   `num_times_gov` int(11) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE `result` (
+  `result_id` int(11) NOT NULL,
+  `ballot_id` int(11) NOT NULL,
+  `match_id` int(11) NOT NULL,
+  `team_id` int(11) NOT NULL,
+  `team_points` int(11) NOT NULL,
+  `team_score` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 --
 -- Indexes for dumped tables
 -- This section adds all the primary keys
@@ -274,6 +285,11 @@ CREATE TABLE `team` (
 --
 -- Indexes for table `ballot`
 --
+ALTER TABLE `result`
+  ADD PRIMARY KEY (`result_id`),
+  ADD KEY (`ballot_id`),
+  ADD KEY (`team_id`);
+
 ALTER TABLE `ballot`
   ADD PRIMARY KEY (`ballot_id`),
   ADD KEY `room_id` (`room_id`);
@@ -395,6 +411,9 @@ ALTER TABLE `team`
 --
 -- AUTO_INCREMENT for table `ballot`
 --
+ALTER TABLE `result`
+  MODIFY `result_id` int(11) NOT NULL AUTO_INCREMENT;
+
 ALTER TABLE `ballot`
   MODIFY `ballot_id` int(11) NOT NULL AUTO_INCREMENT;
 
@@ -460,6 +479,10 @@ ALTER TABLE `team`
 --
 -- Constraints for table `ballot`
 --
+ALTER TABLE `result`
+  ADD CONSTRAINT `foreign_key_ballot` FOREIGN KEY (`ballot_id`) REFERENCES `ballot` (`ballot_id`),
+  ADD CONSTRAINT `foreign_key_team` FOREIGN KEY (`team_id`) REFERENCES `team` (`team_id`);
+
 ALTER TABLE `ballot`
   ADD CONSTRAINT `ballot_ibfk_1` FOREIGN KEY (`room_id`) REFERENCES `room` (`room_id`);
 
