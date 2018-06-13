@@ -1,5 +1,14 @@
-$(document).ready(function(){
+$(document).ready(function()
+{	
 	var currentSection = null;
+	
+	if(window.location.hash)
+	{
+		var hash = window.location.hash.substring(1);
+		openSection(currentSection, hash);
+		currentSection = hash;
+	}
+	
 	$("#regions").click(function(){
 		openSection(currentSection, "regions");
 		currentSection = "regions";

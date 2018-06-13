@@ -1,7 +1,7 @@
 <script src="scripts/nav.js"></script>
 <div id="header">
 	<div id="headercontent">
-		<div class="logo"> <b>Debate</b>Soft </div>
+		<div class="logo"> can<b>Debate</b></div>
 		<div id="navigation">
 			<div class="navbutton"> <a href="registration.php" id="registration">Registration </a></div>
 			<div class="navbutton"> <a href="tournaments.php" id="tournaments">Tournaments </a></div>

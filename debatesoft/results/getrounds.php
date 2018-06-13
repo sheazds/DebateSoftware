@@ -29,12 +29,12 @@
 			echo "<div id='pair".$currentpair."' class='pair'>";
 			echo "<table><tbody>";
 			
-			echo "<tr><td><div class='allballots'><b>Ballots: </b></div></td>";
-			echo "<td>X/Y</td></tr>";
+			//echo "<tr><td><div class='allballots'><b>Ballots: </b></div></td>";
+			//echo "<td>X/Y</td></tr>";
 			
-			echo "<tr><td><b>Room:</b></td><td>".$row['room_name']."</td></tr>";
+			echo "<tr><td><b>Room:</b><br />".$row['room_name']."</td></tr>";
 			
-			echo "<tr><td><b>Teams:</b></td><td>";
+			echo "<tr><td><b>Teams:</b><br />";
 			$pairingteams = "SELECT pairing.pairing_id, team.team_name
 				FROM pairing
 					INNER JOIN pairing_team
@@ -47,7 +47,7 @@
 				echo $row['team_name']."<br />";
 			echo "</td></tr>";
 			
-			echo "<tr><td><b>Judges:</b></td><td>";
+			echo "<tr><td><b>Judges:</b><br />";
 			$judgepairings = "SELECT pairing.pairing_id, judge.judge_id, CONCAT(judge.judge_first_name,' ',judge.judge_last_name) AS judge_name
 				FROM pairing
 					INNER JOIN judge_pairing
@@ -58,9 +58,17 @@
 			$judgeresult = $conn->query($judgepairings);
 			while($row = $judgeresult->fetch_assoc())
 			{
-				echo $row['judge_name'];
-				echo " <button id='button_pair".$currentpair."_judge".$row['judge_id']."' onclick='expandballot(id)'>+</button>";
+				echo "<div class='judge_ballot_row'>";
+					echo $row['judge_name'];
+					echo "<button id='button_pair".$currentpair."_judge".$row['judge_id']."' onclick='expand_ballot(id)' style='float:right; margin-left:5px;'><b>+</b></button>";
+				echo "</div>";
+				
 				echo "<div id='ballot_pair".$currentpair."_judge".$row['judge_id']."' class='ballotpair' style='display: none'>";
+				echo "<div class='ballotpair_spacer'>";
+				echo "<h2 style='float:left; margin-left:10px;'>".$row['judge_name']."</h2>";
+				echo "<button id='button_pair".$currentpair."_judge".$row['judge_id']."' onclick='collapse_ballot(id)' style='float:right;margin-right:10px;'><h2 style='width:30px;'>X</h2></button>";
+				echo "<div class='clear'></div>";
+				
 				echo "<table class='ballotstable'><tbody>";
 				$ballots_query = "SELECT judge_ballot.pairing_id, judge.judge_id, team.team_name, CONCAT(speaker.speaker_first_name, ' ', speaker.speaker_last_name) AS speaker_name, ballot_speaker_scores.speaker_id, `ballot_speaker_scores`.`organization/structure`, `ballot_speaker_scores`.`evidence/analysis`, `ballot_speaker_scores`.`rebuttal/clash`, `ballot_speaker_scores`.`delivery/etiquette`, `ballot_speaker_scores`.`questioning/responding`, `ballot_speaker_scores`.`comments`
 								FROM judge
@@ -154,7 +162,7 @@
 					$j++;
 				}
 				echo "</tbody></table>";
-				echo "</div>";
+				echo "</div></div>";
 				echo "<br />";
 			}
 			echo "</td></tr></tbody></table>";
@@ -165,9 +173,6 @@
 	echo "</div>";
 ?>
 <script>
-	var rounds = document.getElementById("resultbrackets").getElementsByClassName("round");
-	for (var i=0; i<rounds.length; i++)
-		rounds[i].style.display = "none";
 	if ($("#activeBar").length)
 	{
 		var round = $("#activeBar").attr('class').replace("button show","");
@@ -175,29 +180,20 @@
 		document.getElementById(round).style.display = "table-row";
 	}
 	
-	function expandballot(buttonid)
+	function expand_ballot(buttonid)
 	{	
 		console.log(buttonid);
 		ballotid = buttonid.replace("button","ballot");
 		display = document.getElementById(ballotid).style.display;
 		if (display == "none")
-		{
-			document.getElementById(buttonid).innerHTML = "-";
 			document.getElementById(ballotid).style.display = "inline";
-		}
-		else
-		{
-			document.getElementById(buttonid).innerHTML = "+";
+	}
+	function collapse_ballot(buttonid)
+	{	
+		console.log(buttonid);
+		ballotid = buttonid.replace("button","ballot");
+		display = document.getElementById(ballotid).style.display;
+		if (display == "inline")
 			document.getElementById(ballotid).style.display = "none";	
-		}
 	}
 </script>
-
-<!--
-SELECT pairing.pairing_id, ballot.ballot_id, ballot_speaker_scores.speaker_id, `ballot_speaker_scores`.`organization/structure`, `ballot_speaker_scores`.`evidence/analysis`, `ballot_speaker_scores`.`rebuttal/clash`, `ballot_speaker_scores`.`delivery/etiquette`, `ballot_speaker_scores`.`questioning/responding`, `ballot_speaker_scores`.`comments`
-FROM ballot
-INNER JOIN room ON ballot.room_id = room.room_id
-INNER JOIN pairing ON room.room_id = pairing.room_id
-INNER JOIN ballot_speaker_scores ON ballot.ballot_id = ballot_speaker_scores.ballot_id
-
-*/-->

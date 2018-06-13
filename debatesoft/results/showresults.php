@@ -8,7 +8,7 @@
 			echo "<a class='button' href='#showround".$round."' id='showround".$round."'>Round ".$round."</a>";
 		}
 	?>
-	<a class="button" href="#brackets" id="brackets">View all Rounds</a>
+	<a class="button" href="#showall" id="showall">View all Rounds</a>
 </div>
 <div class="clear"></div>
 
@@ -18,12 +18,30 @@
 
 <script>
 	$(document).ready(function(){
-		var rounds = document.getElementById("resultbrackets").getElementsByClassName("round");
-		for (var i=0; i<rounds.length; i++)
-			rounds[i].style.display = "none";
-		
 		var buttons = document.getElementById("buttonbar").getElementsByClassName("button");
 		buttons[0].className = "button left";
+		
+		if(window.location.hash)
+		{
+			var hash = window.location.hash.substring(1);
+			$("#"+hash).addClass(hash);
+			$("#"+hash).attr('id', 'activeBar');
+			if(hash != "showall")
+			{
+				var rounds = document.getElementById("resultbrackets").getElementsByClassName("round");
+				var showround = hash.replace("show","")
+				console.log(showround);
+				for (var i=0; i<rounds.length; i++)
+					if (rounds[i].id != showround)
+						rounds[i].style.display = "none";
+			}
+		}
+		else
+		{
+			$("#showall").addClass("showall");
+			$("#showall").attr('id', 'activeBar');
+		}
+		
 		for (var i=0; i<buttons.length-1; i++)
 		{
 			buttons[i].addEventListener("click", function () {
@@ -51,7 +69,6 @@
 		}
 		
 		buttons[i].addEventListener("click", function () {
-			console.log("test");
 			var rounds = document.getElementById("resultbrackets").getElementsByClassName("round");
 			for (var i=0; i<rounds.length; i++)
 				rounds[i].style.display = "table-row";
