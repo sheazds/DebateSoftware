@@ -33,26 +33,25 @@
      echo "<br> 0 results";
  }
 
- if(isset($_POST["judge_first_name"]))
+ if(isset($_POST["judges_first_name"]))
  {
 
      $stmt = $conn->prepare("INSERT INTO judge (judge_id, judge_first_name, judge_last_name, rank, school_id)
  VALUES (?, ?, ?, ?, ?)");
      $stmt->bind_param("issii", $judge_id, $judge_first_name, $judge_last_name, $rank, $school_id);
 
-     $sql2 = $conn->prepare("SELECT school_id FROM school WHERE school.school_name = ?");
      $school_name = $_POST['school_name'];
-     $sql2->bind_param(s,$school_name);
-     $result2 = $sql2 -> execute();
+     $sql2 = "SELECT school_id FROM school WHERE school.school_name = '$school_name'";
+     $result2 = $conn->query($sql2);
 
     // Judge_id is a auto-incremented value so it is set to 0.
      $judge_id = 0;
 
      // This is a string of max size 20
-     $judge_first_name = $_POST["judge_first_name"];
+     $judge_first_name = $_POST["judges_first_name"];
 
      // Also a string of max size 20
-     $judge_last_name = $_POST["judge_last_name"];
+     $judge_last_name = $_POST["judges_last_name"];
 
      // Integer that is currently not bounded but that can be changed
      $rank = $_POST["rank"];
@@ -61,17 +60,20 @@
      $row2 = $result2 -> fetch_assoc();
      $school_id = $row2["school_id"];
 
+
      if ($stmt -> execute() === TRUE) {
          echo "New record created successfully";
          header("Refresh:0");
+
      } else {
          echo "Error: " . $stmt . "<br>" . $conn->error;
      }
+     echo "<meta http-equiv='refresh' content='0;URL=http://localhost/debatesoft/registration.php#'/>";
  }
 ?>
 
 	<tr>
-		<form method="post">
+		<form method="post" action="registration/judges.php">
 			<td>
                 <?php
                 require_once '../dbconfig.php';

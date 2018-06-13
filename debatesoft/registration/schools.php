@@ -31,10 +31,9 @@ if (isset($_POST['school_name'])) {
     $stmt = $conn->prepare("INSERT INTO school (school_id, school_name, region_id) VALUES (?, ?, ?)");
     $stmt->bind_param("isi", $school_id, $school_name, $region_id);
 
-    $sql2 = $conn->prepare("SELECT region_id FROM region WHERE region.region_name = ?");
-    $region_name = $_POST['region_name'];
-    $sql2->bind_param(s, $region_name);
-    $result2 = $sql2->execute();
+    $region_name = $_POST["region_name"];
+    $sql2 ="SELECT region_id FROM region WHERE region.region_name = '$region_name'";
+    $result2 = $conn->query($sql2);
 
     // school_id is an auto-incremented value so it is set to 0.
     $school_id = 0;
@@ -46,11 +45,11 @@ if (isset($_POST['school_name'])) {
     $row2 = $result2->fetch_assoc();
     $region_id = $row2["region_id"];
 
-    $stmt->execute();
 
     if ($stmt->execute() === TRUE) {
         echo "New record created successfully";
         header("Refresh:0");
+        echo "<meta http-equiv='refresh' content='0;URL=http://localhost/debatesoft/registration.php#'/>";
     } else {
         echo "Error: " . $stmt . "<br>" . $conn->error;
     }
@@ -58,7 +57,7 @@ if (isset($_POST['school_name'])) {
 ?>
 
 <tr>
-    <form method="post" action="schools.php">
+    <form method="post" action="registration/schools.php">
         <td>
             <?php
             require_once '../dbconfig.php';

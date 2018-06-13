@@ -38,14 +38,17 @@ if (isset($_POST['region_name'])) {
     if ($stmt->execute() === TRUE) {
         echo "New record created successfully";
         header("Refresh:0");
+
     } else {
         echo "Error: " . $stmt . "<br>" . $conn->error;
     }
+    echo "<meta http-equiv='refresh' content='0;URL=http://localhost/debatesoft/registration.php#'/>";
+
 }
 ?>
 
 <tr>
-    <form method="post" action="regions.php">
+    <form method="post" action="registration/regions.php">
         <td>
             <?php
             require_once '../dbconfig.php';
