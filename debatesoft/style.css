@@ -104,7 +104,7 @@ body
 	height: 50px;
 	background-color: #B4D2DA;
 }
-.reg_section.closed a:link, .reg_section.closed a:hover, .reg_section.closed a:active
+.reg_section.closed a, .reg_section.closed a:link, .reg_section.closed a:hover, .reg_section.closed a:active
 {
 	font-weight: bold;
 	color: #002033;
@@ -118,7 +118,7 @@ body
 {
 	padding: 15px 20px 20px 20px;
 }
-.reg_section.open a:link, .reg_section.open a:hover, .reg_section.open a:active
+.reg_section.open a, .reg_section.open a:link, .reg_section.open a:hover, .reg_section.open a:active
 {
 	font-weight: bold;
 	color: #000000;
