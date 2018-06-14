@@ -86,10 +86,11 @@
 				$j=0;
 				while($row = $ballots_result->fetch_assoc())
 				{
+					$current_ballot = $row['ballot_id'];
 					if($j%2==0)
 						echo "<tr>";
 					echo "<td class='ballotstd'>";
-					echo "<div id='ballot_speaker".$row['ballot_id']."' class='ballot_speaker'><table class='ballot_inner_table'><tbody>";
+					echo "<div id='ballot_speaker".$current_ballot."' class='ballot_speaker'><table class='ballot_inner_table'><tbody>";
 						echo "<tr><td>Speaker:</td>
 							<td>".$row['speaker_name']."</td>
 							<td>Team Name:</br />".$row['team_name']."</td></tr>";
@@ -105,7 +106,7 @@
 						echo "<td>Totals</td></tr>";
 						
 						echo "<tr><td style='text-align: center'>Organization/<br />Structure</td>
-							<td><form id='orgstruc".$row['ballot_id']."' onchange='post_ballot(orgstruc, ".$row['ballot_id'].")'>
+							<td><form id='orgstruc".$current_ballot."' onchange='post_ballot(orgstruc, ".$current_ballot.")'>
 										<input type='radio' name='orgstruc' value='15'>
 										<input type='radio' name='orgstruc' value='16'>
 										<input type='radio' name='orgstruc' value='17'>
@@ -115,7 +116,7 @@
 							echo "<td>score</td></tr>";
 							
 							echo "<tr><td style='text-align: center'>Evidence/<br />Analysis</td>
-								<td><form action=''>
+								<td><form id='evidana".$current_ballot."' onchange='post_ballot(evidana, ".$current_ballot.")'>
 										<input type='radio' name='evidana' value='15'>
 										<input type='radio' name='evidana' value='16'>
 										<input type='radio' name='evidana' value='17'>
@@ -125,7 +126,7 @@
 							echo "<td>score</td></tr>";
 							
 							echo "<tr><td style='text-align: center'>Rebuttal/<br />Clash</td>
-								<td><form action=''>
+								<td><form id='rebcla".$current_ballot."' onchange='post_ballot(rebcla, ".$current_ballot.")'>
 										<input type='radio' name='rebcla' value='15'>
 										<input type='radio' name='rebcla' value='16'>
 										<input type='radio' name='rebcla' value='17'>
@@ -135,7 +136,7 @@
 							echo "<td>score</td></tr>";
 							
 							echo "<tr><td style='text-align: center'>Delivery/<br />Etiquette</td>
-								<td><form action=''>
+								<td><form id='deleti".$current_ballot."' onchange='post_ballot(deleti, ".$current_ballot.")'>
 										<input type='radio' name='deleti' value='15'>
 										<input type='radio' name='deleti' value='16'>
 										<input type='radio' name='deleti' value='17'>
@@ -145,7 +146,7 @@
 							echo "<td>score</td></tr>";
 							
 							echo "<tr><td style='text-align: center'>Questioning/<br />Responding</td>
-								<td><form action=''>
+								<td><form id='questres".$current_ballot."' onchange='post_ballot(questres, ".$current_ballot.")'>
 										<input type='radio' name='questres' value='15'>
 										<input type='radio' name='questres' value='16'>
 										<input type='radio' name='questres' value='17'>
@@ -155,7 +156,7 @@
 						echo "<td>score</td></tr>";
 						
 						echo "<tr><td colspan='2'>Comments:</br>
-								<textarea rows='4' cols='35'></textarea></td>
+								<textarea rows='4' cols='35' id='comments".$current_ballot."' name='comments' onchange='post_ballot(this.name, ".$current_ballot.", this.value)'></textarea></td>
 							<td>Total Score:</br>
 							Sum</td></tr>";
 							
@@ -199,15 +200,19 @@
 		if (display == "inline")
 			document.getElementById(ballotid).style.display = "none";	
 	}
-	function post_ballot(ballot_form, ballot_id)
+	function post_ballot(ballot_form, ballot_id, ballot_value)
 	{
 		console.log(ballot_form);
 		console.log(ballot_id);
 		console.log(ballot_form[0].name);
+		if (ballot_form == "comments")
+			var post_data = {form:ballot_form, id:ballot_id, value:ballot_value};
+		else
+			var post_data = {form:ballot_form[0].name, id:ballot_id, value:ballot_form.value};
 		$.ajax({
-			url: "results/post.php",	
+			url: "results/postballot.php",	
 			type: "POST",
-			data: {form:ballot_form[0].name, id:ballot_id, value:ballot_form.value},
+			data: post_data,
 			success: function(data) {
 				console.log(data);
 				//$('#ReplaceDiv').html(data);
