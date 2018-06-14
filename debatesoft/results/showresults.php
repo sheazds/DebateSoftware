@@ -30,7 +30,6 @@
 			{
 				var rounds = document.getElementById("resultbrackets").getElementsByClassName("round");
 				var showround = hash.replace("show","")
-				console.log(showround);
 				for (var i=0; i<rounds.length; i++)
 					if (rounds[i].id != showround)
 						rounds[i].style.display = "none";

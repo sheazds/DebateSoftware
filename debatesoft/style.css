@@ -84,10 +84,6 @@ body
 	margin: auto;
 	box-shadow: 0px 0px 10px grey;
 }
-#content
-{
-	overflow: auto;
-}
 
 #content.registration
 {
@@ -108,7 +104,7 @@ body
 	height: 50px;
 	background-color: #B4D2DA;
 }
-.reg_section.closed a, a:link, a:hover, a:active
+.reg_section.closed a:link, .reg_section.closed a:hover, .reg_section.closed a:active
 {
 	font-weight: bold;
 	color: #002033;
@@ -122,7 +118,7 @@ body
 {
 	padding: 15px 20px 20px 20px;
 }
-.reg_section.open a, a:link, a:hover, a:active
+.reg_section.open a:link, .reg_section.open a:hover, .reg_section.open a:active
 {
 	font-weight: bold;
 	color: #000000;
@@ -147,6 +143,7 @@ body
 	float: left;
 	border-left: solid;
 	border-color: #2C91BD;
+	text-decoration: none;
 }
 #buttonbar .button.left
 {
@@ -160,7 +157,6 @@ body
 #tournamentbrackets, #resultbrackets
 {
 	border-style: solid;
-	overflow: auto;
 	display: flex;
 	min-height: 600px;
 	margin-bottom: 20px;

@@ -70,7 +70,11 @@
 				echo "<div class='clear'></div>";
 				
 				echo "<table class='ballotstable'><tbody>";
-				$ballots_query = "SELECT judge_ballot.pairing_id, judge.judge_id, team.team_name, CONCAT(speaker.speaker_first_name, ' ', speaker.speaker_last_name) AS speaker_name, ballot_speaker_scores.speaker_id, `ballot_speaker_scores`.`organization/structure`, `ballot_speaker_scores`.`evidence/analysis`, `ballot_speaker_scores`.`rebuttal/clash`, `ballot_speaker_scores`.`delivery/etiquette`, `ballot_speaker_scores`.`questioning/responding`, `ballot_speaker_scores`.`comments`
+				$ballots_query = "SELECT judge_ballot.pairing_id, judge.judge_id, team.team_name, CONCAT(speaker.speaker_first_name, ' ', speaker.speaker_last_name) AS speaker_name,
+										 ballot_speaker_scores.ballot_id, ballot_speaker_scores.speaker_id, `ballot_speaker_scores`.`organization/structure`,
+										 `ballot_speaker_scores`.`evidence/analysis`, `ballot_speaker_scores`.`rebuttal/clash`,
+										 `ballot_speaker_scores`.`delivery/etiquette`, `ballot_speaker_scores`.`questioning/responding`,
+										 `ballot_speaker_scores`.`comments`
 								FROM judge
 								INNER JOIN judge_ballot ON judge.judge_id = judge_ballot.judge_id
 								INNER JOIN ballot_speaker_scores ON judge_ballot.ballot_id = ballot_speaker_scores.ballot_id
@@ -85,7 +89,7 @@
 					if($j%2==0)
 						echo "<tr>";
 					echo "<td class='ballotstd'>";
-					echo "<div id='ballot_speaker' class='ballot_speaker'><table class='ballot_inner_table'><tbody>";
+					echo "<div id='ballot_speaker".$row['ballot_id']."' class='ballot_speaker'><table class='ballot_inner_table'><tbody>";
 						echo "<tr><td>Speaker:</td>
 							<td>".$row['speaker_name']."</td>
 							<td>Team Name:</br />".$row['team_name']."</td></tr>";
@@ -101,53 +105,53 @@
 						echo "<td>Totals</td></tr>";
 						
 						echo "<tr><td style='text-align: center'>Organization/<br />Structure</td>
-							<td><form action=''>
-									<input type='radio' name='orgstruc'>
-									<input type='radio' name='orgstruc'>
-									<input type='radio' name='orgstruc'>
-									<input type='radio' name='orgstruc'>
-									<input type='radio' name='orgstruc'>
-								</form></td>";
-						echo "<td>score</td></tr>";
-						
-						echo "<tr><td style='text-align: center'>Evidence/<br />Analysis</td>
-							<td><form action=''>
-									<input type='radio' name='evidana'>
-									<input type='radio' name='evidana'>
-									<input type='radio' name='evidana'>
-									<input type='radio' name='evidana'>
-									<input type='radio' name='evidana'>
-								</form></td>";
-						echo "<td>score</td></tr>";
-						
-						echo "<tr><td style='text-align: center'>Rebuttal/<br />Clash</td>
-							<td><form action=''>
-									<input type='radio' name='rebcla'>
-									<input type='radio' name='rebcla'>
-									<input type='radio' name='rebcla'>
-									<input type='radio' name='rebcla'>
-									<input type='radio' name='rebcla'>
-								</form></td>";
-						echo "<td>score</td></tr>";
-						
-						echo "<tr><td style='text-align: center'>Delivery/<br />Etiquette</td>
-							<td><form action=''>
-									<input type='radio' name='deleti'>
-									<input type='radio' name='deleti'>
-									<input type='radio' name='deleti'>
-									<input type='radio' name='deleti'>
-									<input type='radio' name='deleti'>
-								</form></td>";
-						echo "<td>score</td></tr>";
-						
-						echo "<tr><td style='text-align: center'>Questioning/<br />Responding</td>
-							<td><form action=''>
-									<input type='radio' name='questres'>
-									<input type='radio' name='questres'>
-									<input type='radio' name='questres'>
-									<input type='radio' name='questres'>
-									<input type='radio' name='questres'>
-								</form></td>";
+							<td><form id='orgstruc".$row['ballot_id']."' onchange='post_ballot(orgstruc, ".$row['ballot_id'].")'>
+										<input type='radio' name='orgstruc' value='15'>
+										<input type='radio' name='orgstruc' value='16'>
+										<input type='radio' name='orgstruc' value='17'>
+										<input type='radio' name='orgstruc' value='18'>
+										<input type='radio' name='orgstruc' value='19'>
+									</form></td>";
+							echo "<td>score</td></tr>";
+							
+							echo "<tr><td style='text-align: center'>Evidence/<br />Analysis</td>
+								<td><form action=''>
+										<input type='radio' name='evidana' value='15'>
+										<input type='radio' name='evidana' value='16'>
+										<input type='radio' name='evidana' value='17'>
+										<input type='radio' name='evidana' value='18'>
+										<input type='radio' name='evidana' value='19'>
+									</form></td>";
+							echo "<td>score</td></tr>";
+							
+							echo "<tr><td style='text-align: center'>Rebuttal/<br />Clash</td>
+								<td><form action=''>
+										<input type='radio' name='rebcla' value='15'>
+										<input type='radio' name='rebcla' value='16'>
+										<input type='radio' name='rebcla' value='17'>
+										<input type='radio' name='rebcla' value='18'>
+										<input type='radio' name='rebcla' value='19'>
+									</form></td>";
+							echo "<td>score</td></tr>";
+							
+							echo "<tr><td style='text-align: center'>Delivery/<br />Etiquette</td>
+								<td><form action=''>
+										<input type='radio' name='deleti' value='15'>
+										<input type='radio' name='deleti' value='16'>
+										<input type='radio' name='deleti' value='17'>
+										<input type='radio' name='deleti' value='18'>
+										<input type='radio' name='deleti' value='18'>
+									</form></td>";
+							echo "<td>score</td></tr>";
+							
+							echo "<tr><td style='text-align: center'>Questioning/<br />Responding</td>
+								<td><form action=''>
+										<input type='radio' name='questres' value='15'>
+										<input type='radio' name='questres' value='16'>
+										<input type='radio' name='questres' value='17'>
+										<input type='radio' name='questres' value='17'>
+										<input type='radio' name='questres' value='19'>
+						</form></td>";
 						echo "<td>score</td></tr>";
 						
 						echo "<tr><td colspan='2'>Comments:</br>
@@ -172,6 +176,7 @@
 		}
 	echo "</div>";
 ?>
+
 <script>
 	if ($("#activeBar").length)
 	{
@@ -182,7 +187,6 @@
 	
 	function expand_ballot(buttonid)
 	{	
-		console.log(buttonid);
 		ballotid = buttonid.replace("button","ballot");
 		display = document.getElementById(ballotid).style.display;
 		if (display == "none")
@@ -190,10 +194,24 @@
 	}
 	function collapse_ballot(buttonid)
 	{	
-		console.log(buttonid);
 		ballotid = buttonid.replace("button","ballot");
 		display = document.getElementById(ballotid).style.display;
 		if (display == "inline")
 			document.getElementById(ballotid).style.display = "none";	
+	}
+	function post_ballot(ballot_form, ballot_id)
+	{
+		console.log(ballot_form);
+		console.log(ballot_id);
+		console.log(ballot_form[0].name);
+		$.ajax({
+			url: "results/post.php",	
+			type: "POST",
+			data: {form:ballot_form[0].name, id:ballot_id, value:ballot_form.value},
+			success: function(data) {
+				console.log(data);
+				//$('#ReplaceDiv').html(data);
+			}, 
+		});
 	}
 </script>
