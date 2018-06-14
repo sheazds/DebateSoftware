@@ -1,0 +1,26 @@
+
+
+addtions to table pairing (
+	
+
+	match_gov_team_id int not null,
+	match_opp_team_id int not null,
+	
+	
+
+	pullup_team_id int
+);
+
+
+
+create table result (
+	result_id int auto_increment primary key,
+	ballot_id int not null,
+	
+	match_id int not null,
+	team_id int not null,
+	
+	team_points int not null,
+	team_score float not null
+);
+
