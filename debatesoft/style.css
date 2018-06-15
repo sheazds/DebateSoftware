@@ -1,6 +1,6 @@
 body
 {
-		background-color: #939EAC;
+	background-color: #939EAC;
 }
 .clear
 {
@@ -46,7 +46,7 @@ body
 }
 #navigation .navbutton
 {
-	text-color: #002033;
+	color: #002033;
 	float: left;
 	font-size: 24px;
 	margin: 10 20px;
@@ -77,12 +77,18 @@ body
 	box-sizing: border-box;
 	padding: 90 20 20 20;
 	background-color: white;
+	height: 100%;
 	min-height: 700px;
 	width: 980px;
 	min-width: 980px;
 	max-width: 980px;
 	margin: auto;
 	box-shadow: 0px 0px 10px grey;
+	overflow: auto;
+}
+#content
+{
+	height: 100%;
 }
 
 #content.registration
@@ -224,18 +230,21 @@ body
 	position: fixed;
 	top: 0px;
 	left: 0px;
+	bottom: 0px;
 	width: 100%;
 	height: 100%;
 	z-index: 6;
 	overflow: auto;
-	margin-top: 140px;
 }
 #resultbrackets .ballotpair_spacer
 {
+	
 	display: table;
-	margin: 0 auto;
+	margin: 140 auto;
 	background-color: #ffffff;
 	box-shadow: 0px 0px 10px grey;
+	min-height: 100%;
+	height: 100%;
 }
 #resultbrackets .ballotpair_spacer form input
 {
