@@ -17,15 +17,19 @@ $(document).ready(function()
 		openSection(currentSection, "schools");
 		currentSection = "schools";
 	});
-		$("#teams").click(function(){
+	$("#teams").click(function(){
 		openSection(currentSection, "teams");
 		currentSection = "teams";
 	});
-		$("#judges").click(function(){
+	$("#speakers").click(function(){
+		openSection(currentSection, "speakers");
+		currentSection = "speakers";
+	});
+	$("#judges").click(function(){
 		openSection(currentSection, "judges");
 		currentSection = "judges";
 	});
-		$("#rooms").click(function(){
+	$("#rooms").click(function(){
 		openSection(currentSection, "rooms");
 		currentSection = "rooms";
 	});

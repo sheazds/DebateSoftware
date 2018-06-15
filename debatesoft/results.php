@@ -9,9 +9,12 @@
 		<?php require 'nav.php'; ?>
 		<script>$("#navigation").find("#results").addClass("activenav");</script>
 		<div id="main">
-			<?php require 'results/showresults.php'; ?>
 			
-			<div id="content" class="results">	</div>
+			<div id="content" class="results">
+				<?php require 'results/showresults.php'; ?>
+				<div class='clear'></div>
+			</div>
+			<div class='clear'></div>
 		</div>
 	</body>
 

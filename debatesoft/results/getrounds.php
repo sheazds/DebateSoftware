@@ -26,153 +26,61 @@
 			}
 			
 			echo "<div class='pair_spacer'>";
-			echo "<div id='pair".$currentpair."' class='pair'>";
-			echo "<table><tbody>";
-			
-			//echo "<tr><td><div class='allballots'><b>Ballots: </b></div></td>";
-			//echo "<td>X/Y</td></tr>";
-			
-			echo "<tr><td><b>Room:</b><br />".$row['room_name']."</td></tr>";
-			
-			echo "<tr><td><b>Teams:</b><br />";
-			$pairingteams = "SELECT pairing.pairing_id, team.team_name
-				FROM pairing
-					INNER JOIN pairing_team
-						ON pairing.pairing_id = pairing_team.pairing_id
-					INNER JOIN team
-						ON pairing_team.team_id = team.team_id
-					WHERE pairing.pairing_id = ".$currentpair;
-			$teamresult = $conn->query($pairingteams);
-			while($row = $teamresult->fetch_assoc())
-				echo $row['team_name']."<br />";
-			echo "</td></tr>";
-			
-			echo "<tr><td><b>Judges:</b><br />";
-			$judgepairings = "SELECT pairing.pairing_id, judge.judge_id, CONCAT(judge.judge_first_name,' ',judge.judge_last_name) AS judge_name
-				FROM pairing
-					INNER JOIN judge_pairing
-						ON pairing.pairing_id = judge_pairing.pairing_id
-					INNER JOIN judge
-						ON judge_pairing.judge_id = judge.judge_id
-					WHERE pairing.pairing_id = ".$currentpair;
-			$judgeresult = $conn->query($judgepairings);
-			while($row = $judgeresult->fetch_assoc())
-			{
-				echo "<div class='judge_ballot_row'>";
-					echo $row['judge_name'];
-					echo "<button id='button_pair".$currentpair."_judge".$row['judge_id']."' onclick='expand_ballot(id)' style='float:right; margin-left:5px;'><b>+</b></button>";
+				echo "<div id='pair".$currentpair."' class='pair'>";
+					echo "<table><tbody>";
+						
+						//echo "<tr><td><div class='allballots'><b>Ballots: </b></div></td>";
+						//echo "<td>X/Y</td></tr>";
+						
+						echo "<tr><td><b>Room:</b><br />".$row['room_name']."</td></tr>";
+						
+						echo "<tr><td><b>Teams:</b><br />";
+						$pairingteams = "SELECT pairing.pairing_id, team.team_name
+							FROM pairing
+								INNER JOIN pairing_team
+									ON pairing.pairing_id = pairing_team.pairing_id
+								INNER JOIN team
+									ON pairing_team.team_id = team.team_id
+								WHERE pairing.pairing_id = ".$currentpair;
+						$teamresult = $conn->query($pairingteams);
+						while($row = $teamresult->fetch_assoc())
+							echo $row['team_name']."<br />";
+						echo "</td></tr>";
+						
+						echo "<tr><td><b>Judges:</b><br />";
+						$judgepairings = "SELECT pairing.pairing_id, judge.judge_id, CONCAT(judge.judge_first_name,' ',judge.judge_last_name) AS judge_name
+							FROM pairing
+								INNER JOIN judge_pairing
+									ON pairing.pairing_id = judge_pairing.pairing_id
+								INNER JOIN judge
+									ON judge_pairing.judge_id = judge.judge_id
+								WHERE pairing.pairing_id = ".$currentpair;
+						$judgeresult = $conn->query($judgepairings);
+						while($row = $judgeresult->fetch_assoc())
+						{
+							echo "<div class='judge_ballot_row'>";
+								echo $row['judge_name'];
+								echo "<button id='button_pair".$currentpair."_judge".$row['judge_id']."' onclick='expand_ballot(id)' style='float:right; margin-left:5px;'><b>+</b></button>";
+							echo "</div>";
+							
+							echo "<div id='ballot_pair".$currentpair."_judge".$row['judge_id']."' class='ballotpair' style='display: none'>";
+								echo "<div class='ballotpair_spacer'>";
+									echo "<h2 style='float:left; margin-left:10px;'>".$row['judge_name']."</h2>";
+									echo "<button id='button_pair".$currentpair."_judge".$row['judge_id']."' onclick='collapse_ballot(id)' style='float:right;margin-right:10px;'><h2 style='width:30px;'>X</h2></button>";
+									echo "<div class='clear'></div>";
+									
+									echo "<div id='ballotsheet_pair".$currentpair."_judge".$row['judge_id']."'></div>";
+									echo "<div class='clear'></div>";
+									
+								echo "</div>";
+							echo "</div>";
+							echo "<br />";
+						}
+					echo "</td></tr></tbody></table>";
 				echo "</div>";
+			echo "</div>";
 				
-				echo "<div id='ballot_pair".$currentpair."_judge".$row['judge_id']."' class='ballotpair' style='display: none'>";
-				echo "<div class='ballotpair_spacer'>";
-				echo "<h2 style='float:left; margin-left:10px;'>".$row['judge_name']."</h2>";
-				echo "<button id='button_pair".$currentpair."_judge".$row['judge_id']."' onclick='collapse_ballot(id)' style='float:right;margin-right:10px;'><h2 style='width:30px;'>X</h2></button>";
-				echo "<div class='clear'></div>";
-				
-				echo "<table class='ballotstable'><tbody>";
-				$ballots_query = "SELECT judge_ballot.pairing_id, judge.judge_id, team.team_name, CONCAT(speaker.speaker_first_name, ' ', speaker.speaker_last_name) AS speaker_name,
-										 ballot_speaker_scores.ballot_id, ballot_speaker_scores.speaker_id, `ballot_speaker_scores`.`organization/structure`,
-										 `ballot_speaker_scores`.`evidence/analysis`, `ballot_speaker_scores`.`rebuttal/clash`,
-										 `ballot_speaker_scores`.`delivery/etiquette`, `ballot_speaker_scores`.`questioning/responding`,
-										 `ballot_speaker_scores`.`comments`
-								FROM judge
-								INNER JOIN judge_ballot ON judge.judge_id = judge_ballot.judge_id
-								INNER JOIN ballot_speaker_scores ON judge_ballot.ballot_id = ballot_speaker_scores.ballot_id
-								INNER JOIN speaker ON ballot_speaker_scores.speaker_id = speaker.speaker_id
-								INNER JOIN team on speaker.team_id = team.team_id
-								WHERE judge_ballot.pairing_id = ".$currentpair." AND judge.judge_id = ".$row['judge_id']."
-								ORDER BY `judge_ballot`.`pairing_id`, judge_ballot.judge_id, speaker.speaker_id ASC";
-				$ballots_result = $conn->query($ballots_query);
-				$j=0;
-				while($row = $ballots_result->fetch_assoc())
-				{
-					if($j%2==0)
-						echo "<tr>";
-					echo "<td class='ballotstd'>";
-					echo "<div id='ballot_speaker".$row['ballot_id']."' class='ballot_speaker'><table class='ballot_inner_table'><tbody>";
-						echo "<tr><td>Speaker:</td>
-							<td>".$row['speaker_name']."</td>
-							<td>Team Name:</br />".$row['team_name']."</td></tr>";
-					
-						echo "<tr><td>Criteria</td>";
-						echo "<td><table><tbody><tr>
-							<td>15<br />Poor</td>
-							<td>16<br />Weak</td>
-							<td>17<br />Avg</td>
-							<td>18<br />Good</td>
-							<td>19<br />Great</td>
-							</tr></tbody></table></td>";
-						echo "<td>Totals</td></tr>";
-						
-						echo "<tr><td style='text-align: center'>Organization/<br />Structure</td>
-							<td><form id='orgstruc".$row['ballot_id']."' onchange='post_ballot(orgstruc, ".$row['ballot_id'].")'>
-										<input type='radio' name='orgstruc' value='15'>
-										<input type='radio' name='orgstruc' value='16'>
-										<input type='radio' name='orgstruc' value='17'>
-										<input type='radio' name='orgstruc' value='18'>
-										<input type='radio' name='orgstruc' value='19'>
-									</form></td>";
-							echo "<td>score</td></tr>";
-							
-							echo "<tr><td style='text-align: center'>Evidence/<br />Analysis</td>
-								<td><form action=''>
-										<input type='radio' name='evidana' value='15'>
-										<input type='radio' name='evidana' value='16'>
-										<input type='radio' name='evidana' value='17'>
-										<input type='radio' name='evidana' value='18'>
-										<input type='radio' name='evidana' value='19'>
-									</form></td>";
-							echo "<td>score</td></tr>";
-							
-							echo "<tr><td style='text-align: center'>Rebuttal/<br />Clash</td>
-								<td><form action=''>
-										<input type='radio' name='rebcla' value='15'>
-										<input type='radio' name='rebcla' value='16'>
-										<input type='radio' name='rebcla' value='17'>
-										<input type='radio' name='rebcla' value='18'>
-										<input type='radio' name='rebcla' value='19'>
-									</form></td>";
-							echo "<td>score</td></tr>";
-							
-							echo "<tr><td style='text-align: center'>Delivery/<br />Etiquette</td>
-								<td><form action=''>
-										<input type='radio' name='deleti' value='15'>
-										<input type='radio' name='deleti' value='16'>
-										<input type='radio' name='deleti' value='17'>
-										<input type='radio' name='deleti' value='18'>
-										<input type='radio' name='deleti' value='18'>
-									</form></td>";
-							echo "<td>score</td></tr>";
-							
-							echo "<tr><td style='text-align: center'>Questioning/<br />Responding</td>
-								<td><form action=''>
-										<input type='radio' name='questres' value='15'>
-										<input type='radio' name='questres' value='16'>
-										<input type='radio' name='questres' value='17'>
-										<input type='radio' name='questres' value='17'>
-										<input type='radio' name='questres' value='19'>
-						</form></td>";
-						echo "<td>score</td></tr>";
-						
-						echo "<tr><td colspan='2'>Comments:</br>
-								<textarea rows='4' cols='35'></textarea></td>
-							<td>Total Score:</br>
-							Sum</td></tr>";
-							
-					echo "</tbody></table></div>";
-					echo "</td>";
-					if($j==1 || $j==3)
-						echo "</tr>";
-					$j++;
-				}
-				echo "</tbody></table>";
-				echo "</div></div>";
-				echo "<br />";
-			}
-			echo "</td></tr></tbody></table>";
-		echo "</div></div>";
-			
-		$prevround = $currentround;
+			$prevround = $currentround;
 		}
 	echo "</div>";
 ?>
@@ -190,28 +98,57 @@
 		ballotid = buttonid.replace("button","ballot");
 		display = document.getElementById(ballotid).style.display;
 		if (display == "none")
-			document.getElementById(ballotid).style.display = "inline";
+		{
+			document.getElementById(ballotid).style.display = "";
+			
+			pairing = buttonid.replace("button_pair","");
+			pairing = pairing.slice(0, pairing.indexOf("_"));
+			judge = buttonid.slice(pairing.lastIndexOf("_"));
+			show_ballot(pairing, judge);
+		}
 	}
+	
+	function show_ballot(pairing, judge)
+	{
+		post_data = {pair:pairing, judge:judge};
+		$.ajax({
+			url: "results/getballots.php",	
+			type: "POST",
+			data: post_data,
+			success: function(return_data){
+				$("#ballotsheet_pair"+pairing+"_judge"+judge).html(return_data);
+			},
+		});
+	}
+	
 	function collapse_ballot(buttonid)
 	{	
 		ballotid = buttonid.replace("button","ballot");
 		display = document.getElementById(ballotid).style.display;
-		if (display == "inline")
-			document.getElementById(ballotid).style.display = "none";	
+		if (display == "")
+		{
+			document.getElementById(ballotid).style.display = "none";
+			
+			pairing = buttonid.replace("button_pair","");
+			pairing = pairing.slice(0, pairing.indexOf("_"));
+			judge = buttonid.slice(pairing.lastIndexOf("_"));
+			$("#ballotsheet_pair"+pairing+"_judge"+judge).empty();
+		}
 	}
-	function post_ballot(ballot_form, ballot_id)
+	function post_ballot(ballot_form, ballot_id, ballot_value, pairing, judge)
 	{
-		console.log(ballot_form);
-		console.log(ballot_id);
-		console.log(ballot_form[0].name);
+		if (ballot_form == "comments")
+			var post_data = {form:ballot_form, id:ballot_id, value:ballot_value};
+		else
+			var post_data = {form:ballot_form[0].name, id:ballot_id, value:ballot_form.value};
 		$.ajax({
-			url: "results/post.php",	
+			url: "results/postballot.php",	
 			type: "POST",
-			data: {form:ballot_form[0].name, id:ballot_id, value:ballot_form.value},
-			success: function(data) {
-				console.log(data);
-				//$('#ReplaceDiv').html(data);
-			}, 
+			data: post_data,
+			success: function(){
+				if (ballot_form != "comments")
+					show_ballot(pairing, judge);
+			},
 		});
 	}
 </script>
