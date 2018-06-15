@@ -28,6 +28,7 @@ SET time_zone = "+00:00";
 -- Drops all the tables from the database.
 --
 
+DROP TABLE IF EXISTS `result`;
 DROP TABLE IF EXISTS `ballot_team`;
 DROP TABLE IF EXISTS `pairing_team`;
 DROP TABLE IF EXISTS `judge_pairing`;
@@ -35,13 +36,13 @@ DROP TABLE IF EXISTS `ballot_speaker_scores`;
 DROP TABLE IF EXISTS `ballot_round`;
 DROP TABLE IF EXISTS `scratches`;
 DROP TABLE IF EXISTS `speaker`;
-DROP TABLE IF EXISTS `team`;
 DROP TABLE IF EXISTS `judge`;
-DROP TABLE IF EXISTS `ballot`;
 DROP TABLE IF EXISTS `pairing`;
 DROP TABLE IF EXISTS `round`;
-DROP TABLE IF EXISTS `room`;
 DROP TABLE IF EXISTS `pairing_preference`;
+DROP TABLE IF EXISTS `ballot`;
+DROP TABLE IF EXISTS `room`;
+DROP TABLE IF EXISTS `team`;
 DROP TABLE IF EXISTS `school`;
 DROP TABLE IF EXISTS `region`;
 
