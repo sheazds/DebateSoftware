@@ -25,7 +25,6 @@
 
 	
 	require_once("../lib/inc.config.php");
-	//require_once '../dbconfig.php';
 	require_once("../lib/inc.round.php");
 	require_once("../lib/inc.pairing.php");
 	require_once("../lib/inc.match.php");
@@ -102,7 +101,7 @@
 	Note: THIS WILL DELETE ALL PREVIOUSLY ENTERED MATCHES, BALLOTS AND RESULTS ASSOCIATED WITH THIS ROUND.
 </p>
 		
-<form method="post" action="tournaments.php#pairings_generate">
+<form id="generate_form">
 	
 	<script language="javascript">
 		function toggleteams() {
@@ -140,7 +139,7 @@
 			<table class="selectlist">
 				<tr>
 					<td class="checkbox" colspan="3">
-						<input id="toggle_teams" type="checkbox" onclick="toggleteams()" />
+						<input form="generate_form" id="toggle_teams" type="checkbox" onclick="toggleteams()" />
 						<strong>Teams to Pair</strong>
 					</td>
 				</tr>
@@ -159,7 +158,7 @@
 					
 			?>
 					<tr>
-						<td class="checkbox"><input type="checkbox" <?php echo (array_search($team['team_id'], $previous_teams) !== false) ? "checked" : "" ; ?> name="teams[]" value="<?php echo $team['team_id']; ?>" /></td>
+						<td class="checkbox"><input form="generate_form" type="checkbox" <?php echo (array_search($team['team_id'], $previous_teams) !== false) ? "checked" : "" ; ?> name="teams[]" value="<?php echo $team['team_id']; ?>" /></td>
 						<td class="<?php echo $rowclass; ?>"><?php echo $team['team_name']; ?></td>
 						<td class="<?php echo $rowclass; ?>"><?php echo $school_obj->get_school_name($db_obj, $team['school_id']); ?></td>
 					</tr>
@@ -174,7 +173,7 @@
 			<table class="selectlist">
 				<tr>
 					<td class="checkbox" colspan="2">
-						<input id="toggle_rooms" type="checkbox" onclick="togglerooms()"  />
+						<input form="generate_form" id="toggle_rooms" type="checkbox" onclick="togglerooms()"  />
 						<strong>Rooms</strong>
 					</td>
 				</tr>
@@ -192,7 +191,7 @@
 					}								
 			?>
 					<tr>
-						<td class="checkbox"><input type="checkbox" <?php echo (array_search($room['room_id'], $previous_rooms) !== false) ? "checked" : "" ; ?> name="rooms[]" value="<?php echo $room['room_id']; ?>" /></td>
+						<td class="checkbox"><input form="generate_form" type="checkbox" <?php echo (array_search($room['room_id'], $previous_rooms) !== false) ? "checked" : "" ; ?> name="rooms[]" value="<?php echo $room['room_id']; ?>" /></td>
 						<td class="<?php echo $rowclass; ?>"><?php echo $room['room_name']; ?></td>
 					</tr>
 			<?php
@@ -204,10 +203,29 @@
 	</p>
 	
 	<p style="clear: both">
-		<input type="hidden" name="round_id" value="<?php echo $round['round_id']; ?>" />
-		<input type="hidden" name="cmd" value="generate" />
+		<input form="generate_form" type="hidden" name="round_id" value="<?php echo $round['round_id']; ?>" />
+		<input form="generate_form" type="hidden" name="cmd" value="generate" />
 		<br />
-		<input type="submit" value="Generate Pairings" />
+		<input form="generate_form" type="button" value="Generate Pairings" onclick="generate($('#generate_form').serializeArray())"/>
 		<input onclick="<?php $_GET['round_id']=$round['round_id'];?>$('#content').load('tournaments/pairings.php')" type="button" value="Cancel" />
 	</p>
 </form>
+
+<script>
+	function generate(form)
+	{
+		post_data = {};
+		form.forEach(function(item, index) {
+			post_data[item.name] = item.value;
+		});
+		
+		$.ajax({
+			url: "tournaments/pairings_generate.php",	
+			type: "POST",
+			data: post_data,
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
+	}
+</script>

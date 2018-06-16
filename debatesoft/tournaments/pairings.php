@@ -201,11 +201,10 @@
 						<td class="command">
 							<input form="edit_pairing_form_<?php echo $i;?>" type="hidden" name="round_id" value="<?php echo $round_id; ?>" />
 							<input form="edit_pairing_form_<?php echo $i;?>" type="hidden" name="match_id" value="<?php echo $match['pairing_id']; ?>" />
-							<input form="edit_pairing_form_<?php echo $i;?>" type="button" value="Save" id="<?php echo $i;?>" onclick="pairings_edit(id, $('#edit_pairing_form_'+id).serialize())"/>
+							<input form="edit_pairing_form_<?php echo $i;?>" type="button" value="Save" id="<?php echo $i;?>" onclick="pairings_edit(id, $('#edit_pairing_form_'+id).serializeArray())"/>
 						</td>
 						<td class="command">
 							<input type="button" onclick="<?php $_GET['match_id']=$match['pairing_id'];?>$('#content').load('tournaments/pairings_delete.php')" value="Delete" />
-							<input type="submit" value="no" />
 						</td>
 					</tr>
 				</form>
@@ -231,14 +230,14 @@
 					return;
 				}
 				
-				document.getElementById("new_pairing_form").submit();
+				pairings_add($('#new_pairing_form').serializeArray());
 			}
 		</script>
-		<!--<form id="new_pairing_form" method="post" action="pairings_add.php">-->
-		<form id="new_pairing_form" method="post" action="pairings_add('test')">
+
+		<form id="new_pairing_form">
 		<tr style="background: #CCCCFF">
 			<td>
-				<select id="new_match_gov_team_id" name="match_gov_team_id">
+				<select form="new_pairing_form" id="new_match_gov_team_id" name="match_gov_team_id">
 					<option value="">&nbsp;</option>
 					<?php
 						$available_teams = $match_obj->get_available_teams($db_obj, $round_id);
@@ -250,7 +249,7 @@
 				</select>
 			</td>
 			<td>
-				<select id="new_match_opp_team_id" name="match_opp_team_id">
+				<select form="new_pairing_form" id="new_match_opp_team_id" name="match_opp_team_id">
 					<option value="">&nbsp;</option>
 					<?php
 						$available_teams = $match_obj->get_available_teams($db_obj, $round_id);
@@ -263,7 +262,7 @@
 			</td>
 			<td>&nbsp;</td>
 			<td>
-				<select id="new_room_id" name="room_id">
+				<select form="new_pairing_form" id="new_room_id" name="room_id">
 					<option value="">&nbsp;</option>
 					<?php
 						$available_rooms = $match_obj->get_available_rooms($db_obj, $round_id);
@@ -274,11 +273,11 @@
 				</select>
 			</td>
 			<td>
-				<input id="new_match_priority" type="text" name="match_priority" value="<?php echo $highest_priority+1; ?>" style="width: 50px" />
+				<input form="new_pairing_form" id="new_match_priority" type="text" name="match_priority" value="<?php echo $highest_priority+1; ?>" style="width: 50px" />
 			</td>
 			<td class="command" colspan="2">
-				<input type="hidden" name="round_id" value="<?php echo $round_id; ?>" />
-				<input type="button" onclick="verify_add_form()" value="Add Match" />
+				<input form="new_pairing_form" type="hidden" name="round_id" value="<?php echo $round_id; ?>" />
+				<input form="new_pairing_form" type="button" onclick="verify_add_form()" value="Add Match" />
 			</td>
 		</tr>
 		</form>
@@ -301,22 +300,30 @@
 		});
 	}
 	
-	function pairings_add(value)
+	function pairings_add(form)
 	{
-		console.log(value);
+		post_data = {};
+		form.forEach(function(item, index) {
+			post_data[item.name] = item.value;
+		});
+		
+		$.ajax({
+			url: "tournaments/pairings_add.php",	
+			type: "POST",
+			data: post_data,
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
 	}
 	
 	function pairings_edit(id, form)
 	{
-		room_id = form.slice(form.indexOf('=')+1,form.indexOf('&'));
-		form = form.slice(form.indexOf('&')+1);
-		match_priority = form.slice(form.indexOf('=')+1,form.indexOf('&'));
-		form = form.slice(form.indexOf('&')+1);
-		round_id = form.slice(form.indexOf('=')+1,form.indexOf('&'));
-		match_id = form.slice(form.lastIndexOf('=')+1);
-		
-		post_data = {'room_id':room_id, 'match_id':match_id, 'round_id':round_id, 'match_priority':match_priority};
-		
+		post_data = {};
+		form.forEach(function(item, index) {
+			post_data[item.name] = item.value;
+		});
+
 		$.ajax({
 			url: "tournaments/pairings_edit.php",	
 			type: "POST",

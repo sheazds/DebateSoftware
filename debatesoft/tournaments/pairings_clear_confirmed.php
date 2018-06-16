@@ -22,19 +22,27 @@
 
 	require_once("../lib/inc.config.php");
 	require_once("../lib/inc.match.php");
+	require_once("../lib/inc.round.php");
+	require_once("../lib/inc.team.php");
 
 	$db_obj = new Database;
 	$match_obj = new Match;
+	$round_obj = new Round;
+	$team_obj = new Team;
+			
+	$round_id = "";
 
-	$round_id = $_POST['round_id'];
-	$match_gov_team_id = intval($_POST['match_gov_team_id']);
-	$match_opp_team_id = intval($_POST['match_opp_team_id']);
-	$room_id = intval($_POST['room_id']);
-	$match_priority = intval($_POST['match_priority']);
-	
-	if ($match_gov_team_id != $match_opp_team_id) {
-		$match_obj->add_match($db_obj, $round_id, $match_gov_team_id, $match_opp_team_id, $room_id, "", $match_priority);
+	if (isset($_GET['round_id'])) {
+		$round_id = $_GET['round_id'];
 	}
-	$_GET['round_id']=$round_id;
-	include('pairings.php');
+
+	if (isset($_POST['cmd'])) {
+		if ($_POST['cmd'] == "delete") {
+			$round_id = $_POST['round_id'];
+			$match_obj->delete_matches($db_obj, $round_id);
+
+			$_GET['round_id']=$round_id;
+			include('pairings.php');
+		}
+	}
 ?>

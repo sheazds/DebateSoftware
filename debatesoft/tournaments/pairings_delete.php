@@ -42,42 +42,50 @@
 			$round_id = $_POST['round_id'];
 			$match_obj->delete_match($db_obj, $match_id);
 
-			header("Location: pairings.php?round_id=" . $round_id);
-			exit();
+			$_GET['round_id']=$round_id;
+			include('pairings.php');
 		}
 	}
 ?>
-<html>
-<head>
-	<link rel="stylesheet" href="../style.css" type="text/css" />
-</head>
-<body>
-	<?php require 'nav.php';?>
-	<div id = "main">
-	<div id = "content">
-	<div class="body">
-		<?php
-			$match = $match_obj->get_match($db_obj, $match_id);
-			$round = $round_obj->get_round($db_obj, $match['round_id']);
-			$gov_team = $team_obj->get_team($db_obj, $match['match_gov_team_id']);
-			$opp_team = $team_obj->get_team($db_obj, $match['match_opp_team_id']);
-		?>
-		<p class="error">
-			Are you sure you want to delete (<?php echo $round['round_name']; ?>) 
-			<?php echo $gov_team['team_name']; ?> vs. <?php echo $opp_team['team_name']; ?>?<br />
-		</p>
-		<p class="error">
-			THIS WILL DELETE ALL BALLOTS AND RESULTS ASSOCIATED WITH THIS MATCH.
-		</p>
-		<form method="post" action="pairings_delete.php">
-			<input type="hidden" name="match_id" value="<?php echo $match_id; ?>" />
-			<input type="hidden" name="round_id" value="<?php echo $round['round_id']; ?>" />
-			<input type="hidden" name="cmd" value="delete" />
-			<br />
-			<input type="submit" value="Yes" />
-			<input onclick="window.location='pairings.php?round_id=<?php echo $round['round_id']; ?>'" type="button" value="No" />
-		</form>
-	</div>
-	</div>
-</body>
-</html>
+<div class="body">
+	<?php
+		$match = $match_obj->get_match($db_obj, $match_id);
+		$round = $round_obj->get_round($db_obj, $match['round_id']);
+		$gov_team = $team_obj->get_team($db_obj, $match['match_gov_team_id']);
+		$opp_team = $team_obj->get_team($db_obj, $match['match_opp_team_id']);
+	?>
+	<p class="error">
+		Are you sure you want to delete (<?php echo $round['round_name']; ?>) 
+		<?php echo $gov_team['team_name']; ?> vs. <?php echo $opp_team['team_name']; ?>?<br />
+	</p>
+	<p class="error">
+		THIS WILL DELETE ALL BALLOTS AND RESULTS ASSOCIATED WITH THIS MATCH.
+	</p>
+	<form id="confirm_delete" method="post" action="pairings_delete.php">
+		<input form="confirm_delete" type="hidden" name="match_id" value="<?php echo $match_id; ?>" />
+		<input form="confirm_delete" type="hidden" name="round_id" value="<?php echo $round['round_id']; ?>" />
+		<input form="confirm_delete" type="hidden" name="cmd" value="delete" />
+		<br />
+		<input form="confirm_delete" type="button" value="Yes" onclick="confirm_delete($('#confirm_delete').serializeArray())"/>
+		<input form="confirm_delete" onclick="<?php $_GET['round_id']=$round['round_id'];?>$('#content').load('tournaments/pairings.php')" type="button" value="No" />
+	</form>
+</div>
+
+<script>
+	function confirm_delete(form)
+	{
+		post_data = {};
+		form.forEach(function(item, index) {
+			post_data[item.name] = item.value;
+		});
+
+		$.ajax({
+			url: "tournaments/pairings_delete_confirmed.php",	
+			type: "POST",
+			data: post_data,
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
+	}
+</script>

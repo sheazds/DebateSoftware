@@ -46,29 +46,40 @@
 		}
 	}
 ?>
-<html>
-<head>
-	<link rel="stylesheet" href="../style.css" type="text/css" />
-</head>
-<body>
-	<div class="pageheader">Pairing :: Round Pairings :: Clear Round</div>
-	<div class="body">
-		<?php
-			$round = $round_obj->get_round($db_obj, $round_id);
-		?>
-		<p class="error">
-			Are you sure you want to clear <?php echo $round['round_name']; ?>?
-		</p>
-		<p class="error">
-			THIS WILL DELETE ALL BALLOTS AND RESULTS ASSOCIATED WITH THIS ROUND.
-		</p>
-		<form method="post" action="pairings_clear.php">
-			<input type="hidden" name="round_id" value="<?php echo $round['round_id']; ?>" />
-			<input type="hidden" name="cmd" value="delete" />
-			<br />
-			<input type="submit" value="Yes" />
-			<input onclick="window.location='pairings.php?round_id=<?php echo $round['round_id']; ?>'" type="button" value="No" />
-		</form>
-	</div>
-</body>
-</html>
+<div class="body">
+	<?php
+		$round = $round_obj->get_round($db_obj, $round_id);
+	?>
+	<p class="error">
+		Are you sure you want to clear <?php echo $round['round_name']; ?>?
+	</p>
+	<p class="error">
+		THIS WILL DELETE ALL BALLOTS AND RESULTS ASSOCIATED WITH THIS ROUND.
+	</p>
+	<form id="confirm_clear">
+		<input form="confirm_clear" type="hidden" name="round_id" value="<?php echo $round['round_id']; ?>" />
+		<input form="confirm_clear" type="hidden" name="cmd" value="delete" />
+		<br />
+		<input form="confirm_clear" type="button" value="Yes" onclick="confirm_clear($('#confirm_clear').serializeArray())"/>
+		<input form="confirm_clear" onclick="<?php $_GET['round_id']=$round['round_id'];?>$('#content').load('tournaments/pairings.php')" type="button" value="No" />
+	</form>
+</div>
+
+<script>
+	function confirm_clear(form)
+	{
+		post_data = {};
+		form.forEach(function(item, index) {
+			post_data[item.name] = item.value;
+		});
+
+		$.ajax({
+			url: "tournaments/pairings_clear_confirmed.php",	
+			type: "POST",
+			data: post_data,
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
+	}
+</script>
