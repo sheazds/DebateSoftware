@@ -42,7 +42,7 @@ if (isset($_POST['region_name'])) {
     } else {
         echo "Error: " . $stmt . "<br>" . $conn->error;
     }
-    echo "<meta http-equiv='refresh' content='0;URL=http://localhost/debatesoft/registration.php#'/>";
+    echo "<meta http-equiv='refresh' content='0;URL=http://localhost/debatesoft/registration.php#regions'/>";
 
 }
 ?>

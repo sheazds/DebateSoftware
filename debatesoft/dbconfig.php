@@ -2,7 +2,7 @@
 	$servername = "localhost";
 	$username = "dbsadmin";
 	$password = "dbspassadmin";
-	$dbname = "attempt1";
+	$dbname = "candebate";
 	$conn = new mysqli($servername, $username, $password, $dbname);
 
 	// Check connection

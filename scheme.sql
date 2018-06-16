@@ -277,6 +277,14 @@ CREATE TABLE `result` (
   `team_score` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+
+CREATE TABLE `judge_ballot` (
+  `judge_id` int(11) NOT NULL,
+  `pairing_id` int(11) NOT NULL,
+  `ballot_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 --
 -- Indexes for dumped tables
 -- This section adds all the primary keys
@@ -402,6 +410,16 @@ ALTER TABLE `team`
   ADD PRIMARY KEY (`team_id`),
   ADD UNIQUE KEY `team_name` (`team_name`),
   ADD KEY `school_id` (`school_id`);
+
+
+--
+-- Indexes for table `judge_ballot`
+--
+ALTER TABLE `judge_ballot`
+  ADD PRIMARY KEY (`judge_id`,`pairing_id`, `ballot_id`),
+  ADD KEY `judge_id` (`judge_id`),
+  ADD KEY `pairing_id` (`pairing_id`),
+  ADD KEY `ballot_id` (`ballot_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -565,6 +583,16 @@ ALTER TABLE `speaker`
 --
 ALTER TABLE `team`
   ADD CONSTRAINT `team_ibfk_1` FOREIGN KEY (`school_id`) REFERENCES `school` (`school_id`);
+
+--
+-- Constraints for table `judge_ballot`
+--
+ALTER TABLE `judge_ballot`
+  ADD CONSTRAINT `judge_ballot_ibfk_1` FOREIGN KEY (`judge_id`) REFERENCES `judge` (`judge_id`),
+  ADD CONSTRAINT `judge_ballot_ibfk_2` FOREIGN KEY (`pairing_id`) REFERENCES `pairing` (`pairing_id`),
+  ADD CONSTRAINT `judge_ballot_ibfk_3` FOREIGN KEY (`ballot_id`) REFERENCES `ballot_speaker_scores` (`ballot_id`);
+
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
