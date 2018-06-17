@@ -21,7 +21,7 @@
 				//echo "Error: " . $stmt . "<br>" . $conn->error;
 			}
 		}
-		if ($_POST['cmd'] == "del")
+		else if ($_POST['cmd'] == "del")
 		{
 			$sql = "DELETE FROM region WHERE region_id=".$_POST['region_id'];
 
@@ -56,16 +56,14 @@
 	} else {
 		echo "<br> 0 results";
 	}
-?>
+	?>
 
-<tr>
-    <form id="region_form">
-        <td>
-			<input form="region_form" type="hidden" name="region_id" value="<?php echo $row['region_id']; ?>" />
-			<input form="region_form" type="text" name="region_name" /></td>
-        <td><input form="region_form" type="button" value="Add" onclick="add_region($('#region_form').serializeArray())" /></td>
-    </form>
-</tr>
+	<tr>
+		<form id="region_form">
+			<td><input form="region_form" type="text" name="region_name" /></td>
+			<td><input form="region_form" type="button" value="Add" onclick="add_region($('#region_form').serializeArray())" /></td>
+		</form>
+	</tr>
 </table>
 
 <script>
@@ -76,7 +74,6 @@
 			post_data[item.name] = item.value;
 		});
 		post_data['cmd'] = 'add';
-		console.log(post_data);
 		
 		$.ajax({
 			url: "registration/regions.php",	
