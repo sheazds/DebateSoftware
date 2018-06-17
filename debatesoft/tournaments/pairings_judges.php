@@ -134,7 +134,7 @@
 						} else {
 							for($i=1; $i<=count($team_ranks); $i++) {
 								if ($team_ranks[$i-1]['team_id'] == $gov_team['team_id']) {
-									print("($i)");
+									//print("($i)");
 								}
 							}
 							

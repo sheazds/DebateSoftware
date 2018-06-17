@@ -138,7 +138,8 @@ CREATE TABLE `pairing` (
   `round_id` int(11) NOT NULL,
   `room_id` int(11) NOT NULL,
   `match_gov_team_id` int(11) NOT NULL,
-  `match_opp_team_id` int(11) NOT NULL
+  `match_opp_team_id` int(11) NOT NULL,
+  `pullup_team_id` int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
