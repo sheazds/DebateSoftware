@@ -34,7 +34,7 @@ DROP TABLE IF EXISTS `pairing_team`;
 DROP TABLE IF EXISTS `judge_pairing`;
 DROP TABLE IF EXISTS `ballot_speaker_scores`;
 DROP TABLE IF EXISTS `ballot_round`;
-DROP TABLE IF EXISTS `scratches`;
+DROP TABLE IF EXISTS `scratch`;
 DROP TABLE IF EXISTS `speaker`;
 DROP TABLE IF EXISTS `judge`;
 DROP TABLE IF EXISTS `pairing`;
@@ -138,7 +138,8 @@ CREATE TABLE `pairing` (
   `round_id` int(11) NOT NULL,
   `room_id` int(11) NOT NULL,
   `match_gov_team_id` int(11) NOT NULL,
-  `match_opp_team_id` int(11) NOT NULL
+  `match_opp_team_id` int(11) NOT NULL,
+  `pullup_team_id` int(11)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -228,11 +229,11 @@ CREATE TABLE `school` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `scratches`
--- Scratches are a relationship between judges and speakers indicating a potential conflict of interests
+-- Table structure for table `scratch`
+-- scratch are a relationship between judges and speakers indicating a potential conflict of interests
 --
 
-CREATE TABLE `scratches` (
+CREATE TABLE `scratch` (
   `judge_id` int(11) NOT NULL,
   `speaker_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -277,6 +278,14 @@ CREATE TABLE `result` (
   `team_points` int(11) NOT NULL,
   `team_score` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `judge_ballot` (
+  `judge_id` int(11) NOT NULL,
+  `pairing_id` int(11) NOT NULL,
+  `ballot_id` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 --
 -- Indexes for dumped tables
@@ -382,9 +391,9 @@ ALTER TABLE `school`
   ADD KEY `region_id` (`region_id`);
 
 --
--- Indexes for table `scratches`
+-- Indexes for table `scratch`
 --
-ALTER TABLE `scratches`
+ALTER TABLE `scratch`
   ADD PRIMARY KEY (`judge_id`,`speaker_id`),
   ADD KEY `speaker_id` (`speaker_id`);
 
@@ -403,6 +412,16 @@ ALTER TABLE `team`
   ADD PRIMARY KEY (`team_id`),
   ADD UNIQUE KEY `team_name` (`team_name`),
   ADD KEY `school_id` (`school_id`);
+
+
+--
+-- Indexes for table `judge_ballot`
+--
+ALTER TABLE `judge_ballot`
+  ADD PRIMARY KEY (`judge_id`,`pairing_id`, `ballot_id`),
+  ADD KEY `judge_id` (`judge_id`),
+  ADD KEY `pairing_id` (`pairing_id`),
+  ADD KEY `ballot_id` (`ballot_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -548,11 +567,11 @@ ALTER TABLE `school`
   ADD CONSTRAINT `school_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `region` (`region_id`);
 
 --
--- Constraints for table `scratches`
+-- Constraints for table `scratch`
 --
-ALTER TABLE `scratches`
-  ADD CONSTRAINT `scratches_ibfk_1` FOREIGN KEY (`judge_id`) REFERENCES `judge` (`judge_id`),
-  ADD CONSTRAINT `scratches_ibfk_2` FOREIGN KEY (`speaker_id`) REFERENCES `speaker` (`speaker_id`);
+ALTER TABLE `scratch`
+  ADD CONSTRAINT `scratch_ibfk_1` FOREIGN KEY (`judge_id`) REFERENCES `judge` (`judge_id`),
+  ADD CONSTRAINT `scratch_ibfk_2` FOREIGN KEY (`speaker_id`) REFERENCES `speaker` (`speaker_id`);
 
 --
 -- Constraints for table `speaker`
@@ -566,6 +585,16 @@ ALTER TABLE `speaker`
 --
 ALTER TABLE `team`
   ADD CONSTRAINT `team_ibfk_1` FOREIGN KEY (`school_id`) REFERENCES `school` (`school_id`);
+
+--
+-- Constraints for table `judge_ballot`
+--
+ALTER TABLE `judge_ballot`
+  ADD CONSTRAINT `judge_ballot_ibfk_1` FOREIGN KEY (`judge_id`) REFERENCES `judge` (`judge_id`),
+  ADD CONSTRAINT `judge_ballot_ibfk_2` FOREIGN KEY (`pairing_id`) REFERENCES `pairing` (`pairing_id`),
+  ADD CONSTRAINT `judge_ballot_ibfk_3` FOREIGN KEY (`ballot_id`) REFERENCES `ballot_speaker_scores` (`ballot_id`);
+
+
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

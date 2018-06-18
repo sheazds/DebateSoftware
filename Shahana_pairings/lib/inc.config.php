@@ -25,9 +25,9 @@
 	
 	define("DB_HOST", "localhost");
 
-	define("DB_USER", "Shahana"); //this is the default username
-	define("DB_PASS", "asIf1969"); //If a MySQL password has been set, put it here
-	define("DB_NAME", "attempt1"); //Put the name of the child here 
+	define("DB_USER", "dbsadmin"); //this is the default username
+	define("DB_PASS", "dbspassadmin"); //If a MySQL password has been set, put it here
+	define("DB_NAME", "candebate"); //Put the name of the child here 
 
 	define("TOURNAMENT_NAME", "Tournament Name");
 

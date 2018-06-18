@@ -242,7 +242,7 @@
 			if ($matches = $match_obj->get_matches_by_team($db, $round_id, $team_id, false)) {
 				$judge_id = $db->escape($judge_id);
 				foreach ($matches as $match) {
-					if ($row = $db->fetch_row("SELECT COUNT(*) FROM pairing_judge WHERE pairing_id='" . $match['pairing_id'] . "' AND judge_id='$judge_id'")) {
+					if ($row = $db->fetch_row("SELECT COUNT(*) FROM judge_pairing WHERE pairing_id='" . $match['pairing_id'] . "' AND judge_id='$judge_id'")) {
 						if ($row[0] > 0) {
 							return true;
 						}
@@ -290,7 +290,7 @@
 			if ($matches = $match_obj->get_matches_by_team($db, $round_id, $team_id, false)) {
 				$judge_id = $db->escape($judge_id);
 				foreach ($matches as $match) {
-					if ($row = $db->fetch_row("SELECT COUNT(*) FROM pairing_judge WHERE pairing_id='" . $match['pairing_id'] . "' AND judge_id='$judge_id'")) {
+					if ($row = $db->fetch_row("SELECT COUNT(*) FROM judge_pairing WHERE pairing_id='" . $match['pairing_id'] . "' AND judge_id='$judge_id'")) {
 						if ($row[0] > 0) {
 							return true;
 						}
@@ -313,7 +313,7 @@
 			if ($matches = $match_obj->get_matches_by_team($db, $round_id, $team_id, false)) {
 				$judge_id = $db->escape($judge_id);
 				foreach ($matches as $match) {
-					if ($row = $db->fetch_row("SELECT COUNT(*) FROM pairing_judge WHERE pairing_id='" . $match['pairing_id'] . "' AND judge_id='$judge_id'")) {
+					if ($row = $db->fetch_row("SELECT COUNT(*) FROM judge_pairing WHERE pairing_id='" . $match['pairing_id'] . "' AND judge_id='$judge_id'")) {
 						if ($row[0] > 0) {
 							$numpairs++;
 						}
@@ -330,7 +330,7 @@
 			$match_id = $db->escape($match_id);
 			
 			$judges = array();
-			if ($rows = $db->fetch_rows("SELECT * FROM pairing_judge WHERE pairing_id='$match_id'")) {
+			if ($rows = $db->fetch_rows("SELECT * FROM judge_pairing WHERE pairing_id='$match_id'")) {
 				foreach ($rows as $row) {
 					$judges[] = $this->get_judge($db, $row['judge_id']);
 				}

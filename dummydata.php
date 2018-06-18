@@ -3,7 +3,7 @@
 $servername = "localhost";
 $username = "dbsadmin";
 $password = "dbspassadmin";
-$dbname = "attempt1";
+$dbname = "candebate";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -36,7 +36,7 @@ mysqli_query($conn,"DELETE FROM team" );
  mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('2','NotRealTeam','2','0','0')");
  mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('3','FictionTeam','3','0','0')");
  mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('4','AnotherTeam','3','0','0')");
- mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('5','OtherTEam','4','0','0')");
+ mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('5','OtherTeam','4','0','0')");
  mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('6','YetAnother','5','0','0')");
  mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('7','OneMoreTeam','6','0','0')");
  mysqli_query($conn,"INSERT INTO team(team_id, team_name, school_id, num_times_opp, num_times_gov) VALUES ('8','LastTeam','6','0','0')");
@@ -75,8 +75,8 @@ mysqli_query($conn,"DELETE FROM room" );
  mysqli_query($conn,"INSERT INTO room(room_id, room_name, room_priority) VALUES ('3','8-157','6')");
  mysqli_query($conn,"INSERT INTO room(room_id, room_name, room_priority) VALUES ('4','8-181','8')");
  
-mysqli_query($conn,"DELETE FROM scratches" ); 
- mysqli_query($conn,"INSERT INTO scratches(judge_id, speaker_id) VALUES ('1','1')");
+mysqli_query($conn,"DELETE FROM scratch" ); 
+ mysqli_query($conn,"INSERT INTO scratch(judge_id, speaker_id) VALUES ('1','1')");
 
 mysqli_query($conn,"DELETE FROM pairing_preference" );
  mysqli_query($conn,"INSERT INTO pairing_preference(pp_id, pp_name, custom_bracket_size, reseed_pullout, matching_type, max_allowed_govt_assignments, random_room_assignment, bracket_type, same_school, same_region, pullup_only_once, previously_paired, pullout_type) VALUES ('1', 'preferencesName', '2', 'f', 'Random', '1', 't', 'Win-Loss / Points', 't', 't', 'f', 't', 'Top Pullup')");
@@ -87,13 +87,13 @@ mysqli_query($conn,"DELETE FROM round" );
  mysqli_query($conn,"INSERT INTO round(round_id, round_name, pp_id) VALUES ('3','Round 3','1')");
 
 mysqli_query($conn,"DELETE FROM pairing" );
- mysqli_query($conn,"INSERT INTO pairing(pairing_id, priority, round_id, room_id) VALUES ('1','2','1','1')");
- mysqli_query($conn,"INSERT INTO pairing(pairing_id, priority, round_id, room_id) VALUES ('2','2','1','2')");
- mysqli_query($conn,"INSERT INTO pairing(pairing_id, priority, round_id, room_id) VALUES ('3','2','1','3')");
- mysqli_query($conn,"INSERT INTO pairing(pairing_id, priority, round_id, room_id) VALUES ('4','2','1','4')");
- mysqli_query($conn,"INSERT INTO pairing(pairing_id, priority, round_id, room_id) VALUES ('5','4','2','1')");
- mysqli_query($conn,"INSERT INTO pairing(pairing_id, priority, round_id, room_id) VALUES ('6','4','2','2')");
- mysqli_query($conn,"INSERT INTO pairing(pairing_id, priority, round_id, room_id) VALUES ('7','6','3','4')");
+ mysqli_query($conn,"INSERT INTO pairing(pairing_id, priority, round_id, room_id, match_gov_team_id, match_opp_team_id, pullup_team_id) VALUES ('1','2','1','1','1','2','0')");
+ mysqli_query($conn,"INSERT INTO pairing(pairing_id, priority, round_id, room_id, match_gov_team_id, match_opp_team_id, pullup_team_id) VALUES ('2','2','1','2','3','4','0')");
+ mysqli_query($conn,"INSERT INTO pairing(pairing_id, priority, round_id, room_id, match_gov_team_id, match_opp_team_id, pullup_team_id) VALUES ('3','2','1','3','5','6','0')");
+ mysqli_query($conn,"INSERT INTO pairing(pairing_id, priority, round_id, room_id, match_gov_team_id, match_opp_team_id, pullup_team_id) VALUES ('4','2','1','4','7','8','0')");
+ mysqli_query($conn,"INSERT INTO pairing(pairing_id, priority, round_id, room_id, match_gov_team_id, match_opp_team_id, pullup_team_id) VALUES ('5','4','2','1','1','4','0')");
+ mysqli_query($conn,"INSERT INTO pairing(pairing_id, priority, round_id, room_id, match_gov_team_id, match_opp_team_id, pullup_team_id) VALUES ('6','4','2','2','5','8','0')");
+ mysqli_query($conn,"INSERT INTO pairing(pairing_id, priority, round_id, room_id, match_gov_team_id, match_opp_team_id, pullup_team_id) VALUES ('7','6','3','4','1','8','0')");
 
 mysqli_query($conn,"DELETE FROM pairing_team" );
  mysqli_query($conn,"INSERT INTO pairing(pairing_id, team_id) VALUES ('1','1')");

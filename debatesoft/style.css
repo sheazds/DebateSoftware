@@ -252,3 +252,27 @@ body
 	margin-left: 12px;
 	margin-right: 12px;
 }
+
+.pairing_preferences_table tr
+{
+	display: block;
+	float: left;
+	margin-right: 15px;
+}
+.pairing_preferences_table th
+{
+	text-align: right;
+}
+.pairing_preferences_table td
+{
+	text-align: center;
+}
+.pairing_preferences_table th, .pairing_preferences_table td
+{
+	display: block;
+	margin: 15 5 5 5;
+}
+.pairing_preferences_table input
+{
+	margin-top: -1px;
+}
