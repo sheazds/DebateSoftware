@@ -71,7 +71,7 @@
 									</form></td>
 							<?php
 							$score = $score + $row['evidence/analysis'];
-							echo "<td id='evidana_score_".$current_ballot."'>".$score."</td></tr>";
+							echo "<td id='evidana_score_".$current_ballot."'>".$row['evidence/analysis']."</td></tr>";
 							
 							echo "<tr><td style='text-align: center'>Rebuttal/<br />Clash</td>
 								<td><form id='rebcla' onchange='post_ballot(rebcla, ".$current_ballot.", null, ".$currentpair.", ".$currentjudge.")'>"; ?>
@@ -83,7 +83,7 @@
 									</form></td>
 							<?php
 							$score = $score + $row['rebuttal/clash'];
-							echo "<td id='rebcla_score_".$current_ballot."'>".$score."</td></tr>";
+							echo "<td id='rebcla_score_".$current_ballot."'>".$row['rebuttal/clash']."</td></tr>";
 							
 							echo "<tr><td style='text-align: center'>Delivery/<br />Etiquette</td>
 								<td><form id='deleti' onchange='post_ballot(deleti, ".$current_ballot.", null, ".$currentpair.", ".$currentjudge.")'>"; ?>
@@ -95,7 +95,7 @@
 									</form></td>
 							<?php
 							$score = $score + $row['delivery/etiquette'];
-							echo "<td id='deleti_score_".$current_ballot."'>".$score."</td></tr>";
+							echo "<td id='deleti_score_".$current_ballot."'>".$row['delivery/etiquette']."</td></tr>";
 							
 							echo "<tr><td style='text-align: center'>Questioning/<br />Responding</td>
 								<td><form id='questres' onchange='post_ballot(questres, ".$current_ballot.", null, ".$currentpair.", ".$currentjudge.")'>"; ?>
@@ -107,7 +107,7 @@
 						</form></td>
 						<?php
 						$score = $score + $row['questioning/responding'];
-						echo "<td id='questres_score_".$current_ballot."'>".$score."</td></tr>";
+						echo "<td id='questres_score_".$current_ballot."'>".$row['questioning/responding']."</td></tr>";
 						
 						echo "<tr><td colspan='2'>Comments:</br>
 								<textarea rows='4' cols='35' id='comments".$current_ballot."' name='comments' onchange='post_ballot(this.name, ".$current_ballot.", this.value, ".$currentpair.", ".$currentjudge.")'>".$row['comments']."</textarea></td>

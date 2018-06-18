@@ -24,6 +24,7 @@
 	require_once("../lib/inc.match.php");
 	require_once("../lib/inc.round.php");
 	require_once("../lib/inc.team.php");
+	require_once("../scripts/pairings.php");
 
 	$db_obj = new Database;
 	$match_obj = new Match;
@@ -64,34 +65,3 @@
 		<input form="confirm_clear" onclick="view_pairings(<?php echo $round['round_id'];?>)" type="button" value="No" />
 	</form>
 </div>
-
-<script>
-	function confirm_clear(form)
-	{
-		post_data = {};
-		form.forEach(function(item, index) {
-			post_data[item.name] = item.value;
-		});
-
-		$.ajax({
-			url: "tournaments/pairings_clear_confirmed.php",	
-			type: "POST",
-			data: post_data,
-			success: function(return_data){
-				$('#content').html(return_data);
-			},
-		});
-	}
-	
-	function view_pairings(id)
-	{
-		$.ajax({
-			url: "tournaments/pairings.php",	
-			type: "POST",
-			data: {'get_round_id':id},
-			success: function(return_data){
-				$('#content').html(return_data);
-			},
-		});
-	}
-</script>

@@ -24,6 +24,7 @@
 	require_once("../lib/inc.match.php");
 	require_once("../lib/inc.round.php");
 	require_once("../lib/inc.team.php");
+	require_once("../scripts/pairings.php");
 
 	$db_obj = new Database;
 	$match_obj = new Match;
@@ -38,19 +39,6 @@
 			$round_id = $_POST['round_id'];
 			$match_obj->delete_match($db_obj, $match_id);
 			
-			echo "<script>
-				function view_pairings(id)
-				{
-					$.ajax({
-						url: 'tournaments/pairings.php',
-						type: 'POST',
-						data: {'get_round_id':id},
-						success: function(return_data){
-							$('#content').html(return_data);
-						},
-					});
-				}
-			</script>";
 			echo "<script>view_pairings(".$round_id.")</script>";
 		}
 	}
