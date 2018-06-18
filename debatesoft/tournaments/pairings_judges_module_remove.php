@@ -20,38 +20,20 @@
 	// Questions or comments may be forwarded to chu.wayne@gmail.com
 	//////////////////////////////////////////////////////////////////////////////////
 
+	session_start();
+	
 	require_once("../lib/inc.config.php");
 	require_once("../lib/inc.match.php");
-	require_once("../lib/inc.round.php");
-	require_once("../lib/inc.team.php");
 
 	$db_obj = new Database;
 	$match_obj = new Match;
-	$round_obj = new Round;
-	$team_obj = new Team;
-			
-	$match_id = "";
-
-	if (isset($_POST['cmd'])) {
-		if ($_POST['cmd'] == "delete") {
-			$match_id = $_POST['match_id'];
-			$round_id = $_POST['round_id'];
-			$match_obj->delete_match($db_obj, $match_id);
-			
-			echo "<script>
-				function view_pairings(id)
-				{
-					$.ajax({
-						url: 'tournaments/pairings.php',
-						type: 'POST',
-						data: {'get_round_id':id},
-						success: function(return_data){
-							$('#content').html(return_data);
-						},
-					});
-				}
-			</script>";
-			echo "<script>view_pairings(".$round_id.")</script>";
-		}
-	}
+	
+	$round_id = $_GET['round_id'];
+	$match_id = $_GET['match_id'];
+	$judge_id = $_GET['judge_id'];
+	
+	$match_obj->remove_match_judge($db_obj, $match_id, $judge_id);
+	
+	header("Location: pairings_judges_module.php?round_id=$round_id&match_id=$match_id");
+	exit();
 ?>

@@ -5,7 +5,7 @@
 	{
 		if ($_POST['cmd'] == "add")
 		{
-			$stmt = $conn->prepare("INSERT INTO scratches (judge_id, speaker_id) VALUES (?, ?)");
+			$stmt = $conn->prepare("INSERT INTO scratch (judge_id, speaker_id) VALUES (?, ?)");
 			$stmt->bind_param("ii", $judge_id, $speaker_id);
 
 			$judge_name = $_POST["judge_name"];
@@ -39,7 +39,7 @@
 		}
 		else if ($_POST['cmd'] == "del")
 		{
-			$sql = "DELETE FROM scratches WHERE judge_id=".$_POST['judge_id']." AND speaker_id=".$_POST['speaker_id'];
+			$sql = "DELETE FROM scratch WHERE judge_id=".$_POST['judge_id']." AND speaker_id=".$_POST['speaker_id'];
 
 			if ($conn->query($sql) === TRUE) {
 				//echo "Record deleted successfully";
@@ -49,8 +49,8 @@
 		}
 	}
 	
-	$sql = "SELECT judge.judge_id, judge_first_name, judge_last_name, speaker.speaker_id, speaker_first_name, speaker_last_name FROM scratches 
-		  INNER JOIN judge ON scratches.judge_id = judge.judge_id INNER JOIN speaker ON scratches.speaker_id = speaker.speaker_id";
+	$sql = "SELECT judge.judge_id, judge_first_name, judge_last_name, speaker.speaker_id, speaker_first_name, speaker_last_name FROM scratch 
+		  INNER JOIN judge ON scratch.judge_id = judge.judge_id INNER JOIN speaker ON scratch.speaker_id = speaker.speaker_id";
 	$result = $conn->query($sql);
 	?>
 

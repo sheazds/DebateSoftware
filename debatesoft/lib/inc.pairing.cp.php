@@ -36,7 +36,7 @@
 			$room_obj = new Room;
 			
 			$round = $round_obj->get_round($db, $round_id);
-			$pairing_prefs = $pairing_obj->get_pairing_pref($db, $round['pairingprefs_id']);
+			$pairing_prefs = $pairing_obj->get_pairing_pref($db, $round['pp_id']);
 			$team_ranks = $result_obj->get_team_ranks($db, $round_id, false);
 
 			$working_teams = array();

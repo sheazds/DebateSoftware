@@ -20,6 +20,8 @@
 	// Questions or comments may be forwarded to chu.wayne@gmail.com
 	//////////////////////////////////////////////////////////////////////////////////
 	
+	session_start();
+	
 	require_once("../lib/inc.config.php");
 	require_once("../lib/inc.round.php");
 	require_once("../lib/inc.pairing.php");
@@ -39,8 +41,9 @@
 	$result_obj = new Result;
 	
 	$round_id = "";
-	if (isset($_GET['round_id'])) {
-		$round_id = $_GET['round_id'];
+	
+	if (isset($_POST['get_round_id'])) {
+		$round_id = $_POST['get_round_id'];
 	} else {
 		if (isset($_SESSION['last_viewed_round'])) {
 			$round_id = $_SESSION['last_viewed_round'];
@@ -85,10 +88,10 @@
 			?>
 			</select>
 		</span>
-		<a class="button" href="#pairings_generate" onclick="<?php $_GET['round_id']=$round['round_id'];?>$('#content').load('tournaments/pairings_generate.php')">
+		<a class="button" href="#pairings_generate" onclick="view_generate(<?php echo $round['round_id']; ?>)">
 			Generate Pairings
 		</a>
-		<a class="button" href="#pairings_judges" onclick="<?php $_GET['round_id']=$round['round_id'];?>$('#content').load('tournaments/pairings.php')">
+		<a class="button" href="#pairings_judges" onclick="view_pairings(<?php echo $round['round_id']; ?>)">
 			Pairings
 		</a>
 	</div>
@@ -102,7 +105,7 @@
 		<th>Opposition</th>
 		<th style="text-align: center; width: 100px">Room</th>
 		<form>
-			<th style="width: 210px; text-align: right;"><input type="button" value="Clear Round" onclick="<?php $_GET['round_id']=$round['round_id'];?>$('#content').load('tournaments/pairings_clear.php')" /></th>
+			<th style="width: 210px; text-align: right;"><input type="button" value="Clear Round" onclick="clear_round(<?php echo $round['round_id'];?>)" /></th>
 		</form>
 	</tr>
 	<?php
@@ -154,7 +157,7 @@
 						} else {
 							for($i=1; $i<=count($team_ranks); $i++) {
 								if ($team_ranks[$i-1]['team_id'] == $opp_team['team_id']) {
-									print("($i)");
+									//print("($i)");
 								}
 							}
 					?>
@@ -175,7 +178,7 @@
 					<?php echo intval($bracket_wins) . "-" . intval($bracket_losses); ?>
 				</td>
 				<td style="width: 350px; text-align: left; padding: 0px">
-					<!--<iframe id="judge_list_<?php echo $match['match_id']; ?>" src="pairings_judges_module.php?round_id=<?php echo $round_id; ?>&match_id=<?php echo $match['match_id']; ?>" width="350" height="90" frameborder="0" marginwidth="0" marginheight="0"></iframe>-->
+					<iframe id="judge_list_<?php echo $match['match_id']; ?>" src="tournaments/pairings_judges_module.php?round_id=<?php echo $round_id; ?>&match_id=<?php echo $match['pairing_id']; ?>" width="350" height="90" frameborder="0" marginwidth="0" marginheight="0"></iframe>
 				</td>
 			</tr>
 	<?php
@@ -187,9 +190,45 @@
 	function round_dropdown(value)
 	{
 		$.ajax({
+			url: "tournaments/pairings_judges.php",	
+			type: "POST",
+			data: {'get_round_id':value},
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
+	}
+	
+	function view_pairings(id)
+	{
+		$.ajax({
 			url: "tournaments/pairings.php",	
-			type: "GET",
-			data: {'round_id':value},
+			type: "POST",
+			data: {'get_round_id':id},
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
+	}
+	
+	function view_generate(id)
+	{
+		$.ajax({
+			url: "tournaments/pairings_generate.php",	
+			type: "POST",
+			data: {'get_round_id':id},
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
+	}
+	
+	function clear_round(id)
+	{
+		$.ajax({
+			url: "tournaments/pairings_clear.php",	
+			type: "POST",
+			data: {'get_round_id':id},
 			success: function(return_data){
 				$('#content').html(return_data);
 			},

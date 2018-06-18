@@ -49,8 +49,8 @@
 
 	$round_id = "";
 
-	if (isset($_GET['round_id'])) {
-		$round_id = $_GET['round_id'];
+	if (isset($_POST['get_round_id'])) {
+		$round_id = $_POST['get_round_id'];
 	}
 
 	if (isset($_POST['cmd'])) {
@@ -87,8 +87,7 @@
 					$match_priority++;
 				}
 			}
-			$_GET['round_id']=$round_id;
-			echo "<script>$('#content').load('tournaments/pairings.php')</script>";
+			echo "<script>view_pairings(".$round_id.")</script>";
 			//header("Location: ../tournaments.php#pairings?round_id=" . $round_id);
 			exit();
 		}
@@ -207,7 +206,7 @@
 		<input form="generate_form" type="hidden" name="cmd" value="generate" />
 		<br />
 		<input form="generate_form" type="button" value="Generate Pairings" onclick="generate($('#generate_form').serializeArray())"/>
-		<input onclick="<?php $_GET['round_id']=$round['round_id'];?>$('#content').load('tournaments/pairings.php')" type="button" value="Cancel" />
+		<input onclick="view_pairings(<?php $round['round_id'];?>)" type="button" value="Cancel" />
 	</p>
 </form>
 
@@ -223,6 +222,18 @@
 			url: "tournaments/pairings_generate.php",	
 			type: "POST",
 			data: post_data,
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
+	}
+	
+	function view_pairings(id)
+	{
+		$.ajax({
+			url: "tournaments/pairings.php",	
+			type: "POST",
+			data: {'get_round_id':id},
 			success: function(return_data){
 				$('#content').html(return_data);
 			},

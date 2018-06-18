@@ -32,8 +32,8 @@
 			
 	$round_id = "";
 
-	if (isset($_GET['round_id'])) {
-		$round_id = $_GET['round_id'];
+	if (isset($_POST['get_round_id'])) {
+		$round_id = $_POST['get_round_id'];
 	}
 
 	if (isset($_POST['cmd'])) {
@@ -61,7 +61,7 @@
 		<input form="confirm_clear" type="hidden" name="cmd" value="delete" />
 		<br />
 		<input form="confirm_clear" type="button" value="Yes" onclick="confirm_clear($('#confirm_clear').serializeArray())"/>
-		<input form="confirm_clear" onclick="<?php $_GET['round_id']=$round['round_id'];?>$('#content').load('tournaments/pairings.php')" type="button" value="No" />
+		<input form="confirm_clear" onclick="view_pairings(<?php echo $round['round_id'];?>)" type="button" value="No" />
 	</form>
 </div>
 
@@ -77,6 +77,18 @@
 			url: "tournaments/pairings_clear_confirmed.php",	
 			type: "POST",
 			data: post_data,
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
+	}
+	
+	function view_pairings(id)
+	{
+		$.ajax({
+			url: "tournaments/pairings.php",	
+			type: "POST",
+			data: {'get_round_id':id},
 			success: function(return_data){
 				$('#content').html(return_data);
 			},

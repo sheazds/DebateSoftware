@@ -30,28 +30,42 @@
 	$round_obj = new Round;
 	$team_obj = new Team;
 			
-	$match_id = "";
+	$round_id = "";
+
+	if (isset($_GET['round_id'])) {
+		$round_id = $_GET['round_id'];
+	}
 
 	if (isset($_POST['cmd'])) {
 		if ($_POST['cmd'] == "delete") {
-			$match_id = $_POST['match_id'];
 			$round_id = $_POST['round_id'];
-			$match_obj->delete_match($db_obj, $match_id);
-			
-			echo "<script>
-				function view_pairings(id)
-				{
-					$.ajax({
-						url: 'tournaments/pairings.php',
-						type: 'POST',
-						data: {'get_round_id':id},
-						success: function(return_data){
-							$('#content').html(return_data);
-						},
-					});
-				}
-			</script>";
-			echo "<script>view_pairings(".$round_id.")</script>";
+			$match_obj->remove_match_judges($db_obj, $round_id);
+
+			header("Location: pairings_judges.php?round_id=" . $round_id);
+			exit();
 		}
 	}
 ?>
+<html>
+<head>
+	<link rel="stylesheet" href="../style.css" type="text/css" />
+</head>
+<body>
+	<div class="pageheader">Pairing :: Judge Pairings :: Clear Round</div>
+	<div class="body">
+		<?php
+			$round = $round_obj->get_round($db_obj, $round_id);
+		?>
+		<p class="error">
+			Are you sure you want to clear the judge assignments for <?php echo $round['round_name']; ?>?
+		</p>
+		<form method="post" action="pairings_judges_clear.php">
+			<input type="hidden" name="round_id" value="<?php echo $round['round_id']; ?>" />
+			<input type="hidden" name="cmd" value="delete" />
+			<br />
+			<input type="submit" value="Yes" />
+			<input onclick="window.location='pairings_judges.php?round_id=<?php echo $round['round_id']; ?>'" type="button" value="No" />
+		</form>
+	</div>
+</body>
+</html>

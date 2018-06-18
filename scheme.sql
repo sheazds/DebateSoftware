@@ -34,7 +34,7 @@ DROP TABLE IF EXISTS `pairing_team`;
 DROP TABLE IF EXISTS `judge_pairing`;
 DROP TABLE IF EXISTS `ballot_speaker_scores`;
 DROP TABLE IF EXISTS `ballot_round`;
-DROP TABLE IF EXISTS `scratches`;
+DROP TABLE IF EXISTS `scratch`;
 DROP TABLE IF EXISTS `speaker`;
 DROP TABLE IF EXISTS `judge`;
 DROP TABLE IF EXISTS `pairing`;
@@ -229,11 +229,11 @@ CREATE TABLE `school` (
 -- --------------------------------------------------------
 
 --
--- Table structure for table `scratches`
--- Scratches are a relationship between judges and speakers indicating a potential conflict of interests
+-- Table structure for table `scratch`
+-- scratch are a relationship between judges and speakers indicating a potential conflict of interests
 --
 
-CREATE TABLE `scratches` (
+CREATE TABLE `scratch` (
   `judge_id` int(11) NOT NULL,
   `speaker_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -391,9 +391,9 @@ ALTER TABLE `school`
   ADD KEY `region_id` (`region_id`);
 
 --
--- Indexes for table `scratches`
+-- Indexes for table `scratch`
 --
-ALTER TABLE `scratches`
+ALTER TABLE `scratch`
   ADD PRIMARY KEY (`judge_id`,`speaker_id`),
   ADD KEY `speaker_id` (`speaker_id`);
 
@@ -567,11 +567,11 @@ ALTER TABLE `school`
   ADD CONSTRAINT `school_ibfk_1` FOREIGN KEY (`region_id`) REFERENCES `region` (`region_id`);
 
 --
--- Constraints for table `scratches`
+-- Constraints for table `scratch`
 --
-ALTER TABLE `scratches`
-  ADD CONSTRAINT `scratches_ibfk_1` FOREIGN KEY (`judge_id`) REFERENCES `judge` (`judge_id`),
-  ADD CONSTRAINT `scratches_ibfk_2` FOREIGN KEY (`speaker_id`) REFERENCES `speaker` (`speaker_id`);
+ALTER TABLE `scratch`
+  ADD CONSTRAINT `scratch_ibfk_1` FOREIGN KEY (`judge_id`) REFERENCES `judge` (`judge_id`),
+  ADD CONSTRAINT `scratch_ibfk_2` FOREIGN KEY (`speaker_id`) REFERENCES `speaker` (`speaker_id`);
 
 --
 -- Constraints for table `speaker`

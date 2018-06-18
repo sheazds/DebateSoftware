@@ -31,9 +31,9 @@
 	$team_obj = new Team;
 			
 	$match_id = "";
-
-	if (isset($_GET['match_id'])) {
-		$match_id = $_GET['match_id'];
+	
+	if (isset($_POST['get_match_id'])) {
+		$match_id = $_POST['get_match_id'];
 	}
 
 	if (isset($_POST['cmd'])) {
@@ -41,11 +41,9 @@
 			$match_id = $_POST['match_id'];
 			$round_id = $_POST['round_id'];
 			$match_obj->delete_match($db_obj, $match_id);
-
-			$_GET['round_id']=$round_id;
-			include('pairings.php');
-		}
+			echo "<script>view_pairings(".$round_id.")</script>";		}
 	}
+
 ?>
 <div class="body">
 	<?php
@@ -67,7 +65,7 @@
 		<input form="confirm_delete" type="hidden" name="cmd" value="delete" />
 		<br />
 		<input form="confirm_delete" type="button" value="Yes" onclick="confirm_delete($('#confirm_delete').serializeArray())"/>
-		<input form="confirm_delete" onclick="<?php $_GET['round_id']=$round['round_id'];?>$('#content').load('tournaments/pairings.php')" type="button" value="No" />
+		<input form="confirm_delete" onclick="view_pairings(<?php echo $round['round_id'];?>)" type="button" value="No" />
 	</form>
 </div>
 
@@ -83,6 +81,18 @@
 			url: "tournaments/pairings_delete_confirmed.php",	
 			type: "POST",
 			data: post_data,
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
+	}
+	
+	function view_pairings(id)
+	{
+		$.ajax({
+			url: "tournaments/pairings.php",	
+			type: "POST",
+			data: {'get_round_id':id},
 			success: function(return_data){
 				$('#content').html(return_data);
 			},

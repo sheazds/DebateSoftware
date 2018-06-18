@@ -19,6 +19,8 @@
 	//
 	// Questions or comments may be forwarded to chu.wayne@gmail.com
 	//////////////////////////////////////////////////////////////////////////////////
+	
+	session_start();
 
 	require_once("../lib/inc.config.php");
 	require_once("../lib/inc.match.php");
@@ -35,6 +37,18 @@
 	if ($match_gov_team_id != $match_opp_team_id) {
 		$match_obj->add_match($db_obj, $round_id, $match_gov_team_id, $match_opp_team_id, $room_id, "", $match_priority);
 	}
-	$_GET['round_id']=$round_id;
-	include('pairings.php');
+	echo "<script>
+			function view_pairings(id)
+			{
+				$.ajax({
+					url: 'tournaments/pairings.php',
+					type: 'POST',
+					data: {'get_round_id':id},
+					success: function(return_data){
+						$('#content').html(return_data);
+					},
+				});
+			}
+		</script>";
+	echo "<script>view_pairings(".$round_id.")</script>";
 ?>

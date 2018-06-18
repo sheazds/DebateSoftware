@@ -75,8 +75,8 @@ mysqli_query($conn,"DELETE FROM room" );
  mysqli_query($conn,"INSERT INTO room(room_id, room_name, room_priority) VALUES ('3','8-157','6')");
  mysqli_query($conn,"INSERT INTO room(room_id, room_name, room_priority) VALUES ('4','8-181','8')");
  
-mysqli_query($conn,"DELETE FROM scratches" ); 
- mysqli_query($conn,"INSERT INTO scratches(judge_id, speaker_id) VALUES ('1','1')");
+mysqli_query($conn,"DELETE FROM scratch" ); 
+ mysqli_query($conn,"INSERT INTO scratch(judge_id, speaker_id) VALUES ('1','1')");
 
 mysqli_query($conn,"DELETE FROM pairing_preference" );
  mysqli_query($conn,"INSERT INTO pairing_preference(pp_id, pp_name, custom_bracket_size, reseed_pullout, matching_type, max_allowed_govt_assignments, random_room_assignment, bracket_type, same_school, same_region, pullup_only_once, previously_paired, pullout_type) VALUES ('1', 'preferencesName', '2', 'f', 'Random', '1', 't', 'Win-Loss / Points', 't', 't', 'f', 't', 'Top Pullup')");

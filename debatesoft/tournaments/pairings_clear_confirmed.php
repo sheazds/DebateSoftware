@@ -31,18 +31,32 @@
 	$team_obj = new Team;
 			
 	$round_id = "";
+	
+	//print_r($_POST);
 
-	if (isset($_GET['round_id'])) {
-		$round_id = $_GET['round_id'];
+	if (isset($_POST['get_round_id'])) {
+		$round_id = $_POST['get_round_id'];
 	}
 
 	if (isset($_POST['cmd'])) {
 		if ($_POST['cmd'] == "delete") {
 			$round_id = $_POST['round_id'];
 			$match_obj->delete_matches($db_obj, $round_id);
-
-			$_GET['round_id']=$round_id;
-			include('pairings.php');
+			
+			echo "<script>
+				function view_pairings(id)
+				{
+					$.ajax({
+						url: 'tournaments/pairings.php',
+						type: 'POST',
+						data: {'get_round_id':id},
+						success: function(return_data){
+							$('#content').html(return_data);
+						},
+					});
+				}
+			</script>";
+			echo "<script>view_pairings(".$round_id.")</script>";
 		}
 	}
 ?>

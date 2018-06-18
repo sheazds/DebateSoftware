@@ -20,6 +20,8 @@
 	// Questions or comments may be forwarded to chu.wayne@gmail.com
 	//////////////////////////////////////////////////////////////////////////////////
 	
+	session_start();
+	
 	require_once("../lib/inc.config.php");
 	require_once("../lib/inc.match.php");
 
@@ -30,9 +32,21 @@
 	$match_id = $_POST['match_id'];
 	$room_id = intval($_POST['room_id']);
 	$match_priority = intval($_POST['match_priority']);
-	echo "<script>console.log(".$round_id.$match_id.$room_id.$match_priority.");</script>";
 	
 	$match_obj->edit_match($db_obj, $match_id, $room_id, $match_priority);
-	$_GET['round_id']=$round_id;
-	include('pairings.php');
+	
+	echo "<script>
+		function view_pairings(id)
+		{
+			$.ajax({
+				url: 'tournaments/pairings.php',
+				type: 'POST',
+				data: {'get_round_id':id},
+				success: function(return_data){
+					$('#content').html(return_data);
+				},
+			});
+		}
+	</script>";
+	echo "<script>view_pairings(".$round_id.")</script>";
 ?>

@@ -39,8 +39,9 @@
 	$result_obj = new Result;
 	
 	$round_id = "";
-	if (isset($_GET['round_id'])) {
-		$round_id = $_GET['round_id'];
+
+	if (isset($_POST['get_round_id'])) {
+		$round_id = $_POST['get_round_id'];
 	} else {
 		if (isset($_SESSION['last_viewed_round']) && intval($_SESSION['last_viewed_round']) > 0) {
 			$round_id = $_SESSION['last_viewed_round'];
@@ -76,10 +77,10 @@
 		<?php
 			if ($round_id != "") {
 		?>
-			<a class="button" href="#pairings_generate" onclick="<?php $_GET['round_id']=$round['round_id'];?>$('#content').load('tournaments/pairings_generate.php')">
+			<a class="button" href="#pairings_generate" onclick="view_generate(<?php echo $round['round_id']; ?>)">
 				Generate Pairings
 			</a>
-			<a class="button" href="#pairings_judges" onclick="<?php $_GET['round_id']=$round['round_id'];?>$('#content').load('tournaments/pairings_judges.php')">
+			<a class="button" href="#pairings_judges" onclick="view_judges(<?php echo $round['round_id']; ?>)">
 				Judge Pairings
 			</a>
 			
@@ -102,8 +103,7 @@
 			<th style="width: 100px">Room</th>
 			<th style="width: 75px">Priority</th>
 			<form>
-				<th style="text-align: right" colspan="2"><input type="button" value="Clear Round" onclick="<?php $_GET['round_id']=$round['round_id'];?>$('#content').load('tournaments/pairings_clear.php')" /></th>
-			</form>
+				<th style="text-align: right" colspan="2"><input type="button" value="Clear Round" onclick="pairings_clear(<?php echo $round['round_id'];?>)" /></th>
 		</tr>
 		<?php
 			$highest_priority = 0;
@@ -112,7 +112,6 @@
 			$round_num = $round_obj->get_round_num($db_obj, $round_id);
 
 			$matches = $match_obj->get_matches($db_obj, $round_id);
-			$i=1;
 			foreach($matches as $match)
 			{
 				$gov_team = $team_obj->get_team($db_obj, $match['match_gov_team_id']);
@@ -131,9 +130,8 @@
 				if (intval($match['priority']) > $highest_priority) {
 					$highest_priority = intval($match['priority']);
 				}
-		?>
-				<!--<form method="post" action="pairings_edit.php">-->
-				<form id="edit_pairing_form_<?php echo $i;?>">
+				?>
+				<form id="edit_pairing_form_<?php echo $match['pairing_id'];?>">
 					<tr>
 						<td>
 							<?php
@@ -178,7 +176,7 @@
 							<?php echo intval($bracket_wins) . "-" . intval($bracket_losses); ?>
 						</td>
 						<td>
-							<select form= "edit_pairing_form_<?php echo $i;?>" name="room_id">
+							<select form= "edit_pairing_form_<?php echo $match['pairing_id'];?>" name="room_id">
 								<?php 
 									if (intval($room['room_id']) != 0) { 
 								?>
@@ -196,20 +194,19 @@
 							</select>
 						</td>
 						<td>
-							<input form="edit_pairing_form_<?php echo $i;?>" type="text" style="width: 50px" name="match_priority" value="<?php echo intval($match['priority']); ?>" />
+							<input form="edit_pairing_form_<?php echo $match['pairing_id'];?>" type="text" style="width: 50px" name="match_priority" value="<?php echo intval($match['priority']); ?>" />
 						</td>
 						<td class="command">
-							<input form="edit_pairing_form_<?php echo $i;?>" type="hidden" name="round_id" value="<?php echo $round_id; ?>" />
-							<input form="edit_pairing_form_<?php echo $i;?>" type="hidden" name="match_id" value="<?php echo $match['pairing_id']; ?>" />
-							<input form="edit_pairing_form_<?php echo $i;?>" type="button" value="Save" id="<?php echo $i;?>" onclick="pairings_edit(id, $('#edit_pairing_form_'+id).serializeArray())"/>
+							<input form="edit_pairing_form_<?php echo $match['pairing_id'];?>" type="hidden" name="round_id" value="<?php echo $round_id; ?>" />
+							<input form="edit_pairing_form_<?php echo $match['pairing_id'];?>" type="hidden" name="match_id" value="<?php echo $match['pairing_id']; ?>" />
+							<input form="edit_pairing_form_<?php echo $match['pairing_id'];?>" type="button" value="Save" id="<?php echo $match['pairing_id'];?>" onclick="pairings_edit(id, $('#edit_pairing_form_'+id).serializeArray())"/>
 						</td>
 						<td class="command">
-							<input type="button" onclick="<?php $_GET['match_id']=$match['pairing_id'];?>$('#content').load('tournaments/pairings_delete.php')" value="Delete" />
+							<input type="button" onclick="pairings_delete(<?php echo $match['pairing_id'];?>)" value="Delete" />
 						</td>
 					</tr>
 				</form>
-		<?php
-				$i++;
+			<?php
 			}
 		?>
 		
@@ -292,8 +289,8 @@
 	{
 		$.ajax({
 			url: "tournaments/pairings.php",	
-			type: "GET",
-			data: {'round_id':value},
+			type: "POST",
+			data: {'get_round_id':value},
 			success: function(return_data){
 				$('#content').html(return_data);
 			},
@@ -328,6 +325,54 @@
 			url: "tournaments/pairings_edit.php",	
 			type: "POST",
 			data: post_data,
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
+	}
+	
+	function pairings_delete(id)
+	{
+		$.ajax({
+			url: "tournaments/pairings_delete.php",	
+			type: "POST",
+			data: {'get_match_id':id},
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
+	}
+	
+	function view_judges(id)
+	{
+		$.ajax({
+			url: "tournaments/pairings_judges.php",	
+			type: "POST",
+			data: {'get_round_id':id},
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
+	}
+	
+	function view_generate(id)
+	{
+		$.ajax({
+			url: "tournaments/pairings_generate.php",	
+			type: "POST",
+			data: {'get_round_id':id},
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
+	}
+	
+	function pairings_clear(id)
+	{
+		$.ajax({
+			url: "tournaments/pairings_clear.php",	
+			type: "POST",
+			data: {'get_round_id':id},
 			success: function(return_data){
 				$('#content').html(return_data);
 			},
