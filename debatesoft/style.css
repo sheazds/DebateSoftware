@@ -1,0 +1,278 @@
+body
+{
+	background-color: #939EAC;
+}
+.clear
+{
+	clear: both;
+}
+
+::-webkit-scrollbar {
+	display: none;
+}
+
+#header
+{
+	width: 100%;
+	height: 80px;
+	max-height: 80px;
+	position: fixed;
+	top: 0;
+	left: 0;
+	background-color: #2C91BD;
+	box-shadow: 0px 0px 10px grey;
+	z-index: 5;
+}
+
+#headercontent
+{
+	width:940px;
+	min-width: 940px;
+	max-width: 940px;
+	margin: 20px auto;
+}
+
+.logo
+{
+	float: left;
+	font-size: 36px;
+	color: #002033;
+}
+
+#navigation
+{
+	float: right;
+	margin-right: -20px;
+}
+#navigation .navbutton
+{
+	color: #002033;
+	float: left;
+	font-size: 24px;
+	margin: 10 20px;
+}
+#navigation .navbutton a
+{
+	color: #002033;
+	text-decoration: none;
+}
+#navigation .navbutton a:hover
+{
+	color: #002033;
+	border-bottom: 3px solid #F4FA40;
+}
+#navigation .navbutton a:active
+{
+	color: #F4FA40;
+}
+#navigation .activenav
+{
+	border-bottom: 2px solid #F4FA40;
+}
+
+
+
+#main
+{
+	box-sizing: border-box;
+	padding: 90 20 20 20;
+	background-color: white;
+	height: 100%;
+	min-height: 700px;
+	width: 980px;
+	min-width: 980px;
+	max-width: 980px;
+	margin: auto;
+	box-shadow: 0px 0px 10px grey;
+	overflow: auto;
+}
+#content
+{
+	height: 100%;
+}
+
+#content.registration
+{
+	box-sizing: border-box;
+	margin: -20 -20 -20 -20;
+}
+
+.reg_section
+{
+	box-sizing: border-box;
+	display: block;
+	width: 980px;
+	padding: 15px 20px 0px 20px;
+	border-bottom: solid;
+}
+.reg_section.closed
+{
+	height: 50px;
+	background-color: #B4D2DA;
+}
+.reg_section.closed a, .reg_section.closed a:link, .reg_section.closed a:hover, .reg_section.closed a:active
+{
+	font-weight: bold;
+	color: #002033;
+	text-decoration: none;
+}
+.reg_section.closed:hover
+{
+	background-color: #F4FA40;
+}
+.reg_section.open
+{
+	padding: 15px 20px 20px 20px;
+}
+.reg_section.open a, .reg_section.open a:link, .reg_section.open a:hover, .reg_section.open a:active
+{
+	font-weight: bold;
+	color: #000000;
+	text-decoration: none;
+}
+
+.button
+{
+	display: inline;
+	padding: 10 30 10 30;
+	color: #002033;
+	border-color: #002033;
+	background-color: #B4D2DA;
+}
+#buttonbar
+{
+	margin-bottom: 15px;
+	height: 40px;
+}
+#buttonbar .button
+{
+	float: left;
+	border-left: solid;
+	border-color: #2C91BD;
+	text-decoration: none;
+}
+#buttonbar .button.left
+{
+	border-left: none;
+}
+#activeBar
+{
+	background-color: #F4FA40;
+}
+
+#tournamentbrackets, #resultbrackets
+{
+	border-style: solid;
+	display: flex;
+	min-height: 600px;
+	margin-bottom: 20px;
+}
+#resultbrackets
+{
+	display: block;
+}
+#tournamentbrackets .round, #resultbrackets .round
+{
+	float: left;
+	display: flex;
+	flex-direction: column;		
+}
+#resultbrackets .round
+{
+	float: none;
+	display: table-row;
+	width: 100%;
+}
+#tournamentbrackets .pair_spacer, #resultbrackets .pair_spacer
+{
+	flex: 1;
+	margin: 10;
+	position: relative;
+}
+#resultbrackets .pair_spacer
+{
+	float: left;
+}
+#tournamentbrackets .pair, #resultbrackets .pair
+{
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);
+	border-style: solid;
+	padding: 10px;
+	min-width: 140px;
+}
+#resultbrackets .pair
+{
+	transform: none;
+}
+#tournamentbrackets .pair td, #resultbrackets .pair td
+{
+	padding-right: 5px;
+}
+
+#resultbrackets .judge_ballot_row
+{
+	margin-bottom: -5px;
+}
+
+#resultbrackets .ballot_inner_table
+{
+	padding-left: 5px;
+	padding-bottom: 5px;
+	border-style: solid;
+	border-color: #2C91BD;
+	margin: 5px;
+}
+
+#resultbrackets .ballotpair
+{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	bottom: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: 6;
+	overflow: auto;
+}
+#resultbrackets .ballotpair_spacer
+{
+	
+	display: table;
+	margin: 140 auto;
+	background-color: #ffffff;
+	box-shadow: 0px 0px 10px grey;
+	min-height: 100%;
+	height: 100%;
+}
+#resultbrackets .ballotpair_spacer form input
+{
+	margin-top: 10px;
+	margin-left: 12px;
+	margin-right: 12px;
+}
+
+.pairing_preferences_table tr
+{
+	display: block;
+	float: left;
+	margin-right: 15px;
+}
+.pairing_preferences_table th
+{
+	text-align: right;
+}
+.pairing_preferences_table td
+{
+	text-align: center;
+}
+.pairing_preferences_table th, .pairing_preferences_table td
+{
+	display: block;
+	margin: 15 5 5 5;
+}
+.pairing_preferences_table input
+{
+	margin-top: -1px;
+}
