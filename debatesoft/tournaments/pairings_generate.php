@@ -20,9 +20,9 @@
 	// Questions or comments may be forwarded to chu.wayne@gmail.com
 	//////////////////////////////////////////////////////////////////////////////////
 
-	session_start();
-
-
+	if (session_status() == PHP_SESSION_NONE) {
+		session_start();
+	}
 	
 	require_once("../lib/inc.config.php");
 	require_once("../lib/inc.round.php");
@@ -33,6 +33,7 @@
 	require_once("../lib/inc.school.php");
 	require_once("../lib/inc.result.php");
 	require_once("../lib/inc.pairing.cp.php");
+	require_once("../scripts/pairings.php");
 	
 
 	$db_obj = new Database;
@@ -209,34 +210,3 @@
 		<input onclick="view_pairings(<?php $round['round_id'];?>)" type="button" value="Cancel" />
 	</p>
 </form>
-
-<script>
-	function generate(form)
-	{
-		post_data = {};
-		form.forEach(function(item, index) {
-			post_data[item.name] = item.value;
-		});
-		
-		$.ajax({
-			url: "tournaments/pairings_generate.php",	
-			type: "POST",
-			data: post_data,
-			success: function(return_data){
-				$('#content').html(return_data);
-			},
-		});
-	}
-	
-	function view_pairings(id)
-	{
-		$.ajax({
-			url: "tournaments/pairings.php",	
-			type: "POST",
-			data: {'get_round_id':id},
-			success: function(return_data){
-				$('#content').html(return_data);
-			},
-		});
-	}
-</script>

@@ -20,7 +20,9 @@
 	// Questions or comments may be forwarded to chu.wayne@gmail.com
 	//////////////////////////////////////////////////////////////////////////////////
 	
-	session_start();
+	if (session_status() == PHP_SESSION_NONE) {
+		session_start();
+	}
 	
 	require_once("../lib/inc.config.php");
 	require_once("../lib/inc.round.php");
@@ -30,6 +32,7 @@
 	require_once("../lib/inc.judge.php");
 	require_once("../lib/inc.room.php");
 	require_once("../lib/inc.result.php");
+	require_once("../scripts/pairings.php");
 
 	$db_obj = new Database;
 	$round_obj = new Round;
@@ -105,7 +108,7 @@
 		<th>Opposition</th>
 		<th style="text-align: center; width: 100px">Room</th>
 		<form>
-			<th style="width: 210px; text-align: right;"><input type="button" value="Clear Round" onclick="clear_round(<?php echo $round['round_id'];?>)" /></th>
+			<th style="width: 210px; text-align: right;"><input type="button" value="Clear Round" onclick="pairings_clear(<?php echo $round['round_id'];?>)" /></th>
 		</form>
 	</tr>
 	<?php
@@ -185,53 +188,3 @@
 		}
 	?>
 </table>
-
-<script>
-	function round_dropdown(value)
-	{
-		$.ajax({
-			url: "tournaments/pairings_judges.php",	
-			type: "POST",
-			data: {'get_round_id':value},
-			success: function(return_data){
-				$('#content').html(return_data);
-			},
-		});
-	}
-	
-	function view_pairings(id)
-	{
-		$.ajax({
-			url: "tournaments/pairings.php",	
-			type: "POST",
-			data: {'get_round_id':id},
-			success: function(return_data){
-				$('#content').html(return_data);
-			},
-		});
-	}
-	
-	function view_generate(id)
-	{
-		$.ajax({
-			url: "tournaments/pairings_generate.php",	
-			type: "POST",
-			data: {'get_round_id':id},
-			success: function(return_data){
-				$('#content').html(return_data);
-			},
-		});
-	}
-	
-	function clear_round(id)
-	{
-		$.ajax({
-			url: "tournaments/pairings_clear.php",	
-			type: "POST",
-			data: {'get_round_id':id},
-			success: function(return_data){
-				$('#content').html(return_data);
-			},
-		});
-	}
-</script>

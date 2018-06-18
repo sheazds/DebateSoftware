@@ -37,6 +37,12 @@ body
 	float: left;
 	font-size: 36px;
 	color: #002033;
+
+}
+.logo img
+{
+	float: left;
+	height: 40px;
 }
 
 #navigation
