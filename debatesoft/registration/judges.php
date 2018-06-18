@@ -1,3 +1,4 @@
+<span>Judges should be entered and their affiliations correctly recorded so that you do not create judging conflicts during judge allocation a. Judge ranks can be useful for keeping track of skilled/experienced judges but are not essential. You can enter 1.</span>
 <?php
 	require_once '../dbconfig.php';
 	

@@ -76,7 +76,7 @@
 		}
 		
 		function get_brackets($db, $pairing_prefs, $team_ranks) {
-			switch ($pairing_prefs['pairingprefs_bracket_type']) {
+			switch ($pairing_prefs['bracket_type']) {
 				case PAIRING_BRACKET_TYPE_NOBRACKET:
 					$brackets = array();
 					$brackets[] = $team_ranks;
@@ -302,7 +302,7 @@
 			$match_obj = new Match;
 			$matches = array();
 			
-			switch($pairing_prefs['pairingprefs_matching_type']) {
+			switch($pairing_prefs['matching_type']) {
 				case PAIRING_MATCHING_RANDOM:
 					$teams = $bracket;
 					while (count($teams) >= 2) {

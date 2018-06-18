@@ -156,5 +156,20 @@
 		});
 	}
 	
-	
+	function add_round(form)
+	{
+		post_data = {};
+		form.forEach(function(item, index) {
+			post_data[item.name] = item.value;
+		});
+		
+		$.ajax({
+			url: "tournaments/round.php",	
+			type: "POST",
+			data: post_data,
+			success: function(return_data){
+				$('#content').html(return_data);
+			},
+		});
+	}
 </script>

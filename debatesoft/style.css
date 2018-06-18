@@ -97,7 +97,7 @@ body
 	height: 100%;
 }
 
-#content.registration
+#content.registration, #content.tools
 {
 	box-sizing: border-box;
 	margin: -20 -20 -20 -20;

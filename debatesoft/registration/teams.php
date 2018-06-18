@@ -1,3 +1,4 @@
+<span>Teams should be assigned to their correct school and assigned a unique team name.</span>
 <?php
 	require_once '../dbconfig.php';
 	

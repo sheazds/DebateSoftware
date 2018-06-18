@@ -91,8 +91,8 @@
 			?>
 			</select>
 		</span>
-		<a class="button" href="#pairings_generate" onclick="view_generate(<?php echo $round['round_id']; ?>)">
-			Generate Pairings
+		<a class="button" href="#pairings_judges_generate" onclick="view_generate(<?php echo $round['round_id']; ?>)">
+			Generate Judge Pairings
 		</a>
 		<a class="button" href="#pairings_judges" onclick="view_pairings(<?php echo $round['round_id']; ?>)">
 			Pairings

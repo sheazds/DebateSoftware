@@ -1,3 +1,4 @@
+<span>Schools must belong to a region. Create an appropriate region(s) for schools in the tournament.</span>
 <?php
 	require_once '../dbconfig.php';
 	

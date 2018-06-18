@@ -1,3 +1,4 @@
+<span>Schools should be assigned to the appropriate region.</span>
 <?php
 	require_once '../dbconfig.php';
 
