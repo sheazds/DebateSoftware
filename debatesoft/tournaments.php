@@ -11,6 +11,7 @@
 		<div id="main">
 			<script src="scripts/buttonbar.js"></script>
 			<div id="buttonbar">
+                <a class="button" href="#round" id="round">Rounds</a>
 				<a class="button" href="#pairings" id="pairings">Tournament Pairings</a>
 				<a class="button" href="#view" id="view">View Tournament</a>
 				<a class="button" href="#conflicts" id="conflicts">Set Judge Conflicts</a>
