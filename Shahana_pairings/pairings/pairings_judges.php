@@ -110,9 +110,7 @@
 				<a class="toolbar" href="pairings.php?round_id=<?php echo $round_id; ?>">
 					Pairings
 				</a>
-				<a class="toolbar" href="javascript:print_doc()">
-					Print List
-				</a>
+				
 			</div>
 		</form>
 		

@@ -42,7 +42,7 @@
 			$match_id = $db->escape($match_id);
 			$judge_id = $db->escape($judge_id);
 			
-			return $db->query("INSERT INTO pairing_judge (pairing_id, judge_id) VALUES ('$match_id', '$judge_id')");
+			return $db->query("INSERT INTO judge_pairing (pairing_id, judge_id) VALUES ('$match_id', '$judge_id')");
 		}
         
 		
@@ -55,7 +55,7 @@
 			/***
 			if ($matches = $this->get_matches($db, $round_id)) {
 				foreach ($matches as $match) {
-					if ($rows = $db->fetch_rows("SELECT pairing_id FROM pairing_judge WHERE pairing_id='" . $match['pairing_id'] . "' & judge_id == null")) {
+					if ($rows = $db->fetch_rows("SELECT pairing_id FROM judge_pairing WHERE pairing_id='" . $match['pairing_id'] . "' & judge_id == null")) {
 						foreach($rows as $row) {
 							$match_ids[] = $row['pairing_id'];
 						}
@@ -67,7 +67,7 @@
             ***/
 			
 			
-			$query = "SELECT pairing.pairing_id from pairing WHERE pairing.round_id ='" . $round_id . "' AND pairing.pairing_id NOT IN (SELECT pairing_judge.pairing_id FROM pairing_judge)";
+			$query = "SELECT pairing.pairing_id from pairing WHERE pairing.round_id ='" . $round_id . "' AND pairing.pairing_id NOT IN (SELECT judge_pairing.pairing_id FROM judge_pairing)";
 			$rows = $db->fetch_rows($query); 
 											
 		    return $rows;
@@ -87,7 +87,7 @@
 		
 		
 		function get_round_from_match($db, $match_id){
-		    $query = "SELECT pairing_id FROM pairing WHERE pairing_id='" . $match_id . "'";
+		    $query = "SELECT round_id FROM pairing WHERE pairing_id='" . $match_id . "'";
 			$rows = $db->fetch_rows($query);
 			
 			if($rows){
@@ -101,12 +101,12 @@
 			$match_id = $db->escape($match_id);
 			$judge_id = $db->escape($judge_id);
 			
-			return $db->query("DELETE FROM pairing_judge WHERE pairing_id='$match_id' AND judge_id='$judge_id'");
+			return $db->query("DELETE FROM judge_pairing WHERE pairing_id='$match_id' AND judge_id='$judge_id'");
 		}
 
 		function remove_all_match_judges($db, $match_id) {
 			$match_id = $db->escape($match_id);
-			return $db->query("DELETE FROM pairing_judge WHERE pairing_id='$match_id'");
+			return $db->query("DELETE FROM judge_pairing WHERE pairing_id='$match_id'");
 		}
 		
 		function remove_match_judges($db, $round_id) {
